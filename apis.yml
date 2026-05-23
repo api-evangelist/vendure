@@ -1,0 +1,174 @@
+aid: vendure
+url: https://raw.githubusercontent.com/api-evangelist/vendure/refs/heads/main/apis.yml
+name: Vendure
+kind: company
+description: >-
+  Vendure is an open-source headless commerce framework built in TypeScript on
+  top of NestJS and TypeORM. A Vendure server exposes two GraphQL APIs - the
+  Shop API consumed by storefronts and the Admin API consumed by the admin UI
+  and back-office tooling - plus a plugin system for extending data, services,
+  jobs, and resolvers. Developer surface includes the Vendure Core,
+  community-maintained plugins (Braintree, Stripe, Algolia, ...), a CLI,
+  Dashboard, the hosted Vendure Platform, and an MCP server exposing the
+  documentation to AI assistants.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Commerce
+  - Headless
+  - eCommerce
+  - GraphQL
+  - Open Source
+  - TypeScript
+  - NestJS
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis:
+  - aid: vendure:shop-api
+    name: Vendure Shop GraphQL API
+    description: >-
+      Public GraphQL API consumed by storefronts and end-customer clients -
+      product browse, search, collections, cart and active order, checkout,
+      payments, customer account, and registration. Mounted at /shop-api on the
+      Vendure server.
+    humanURL: https://docs.vendure.io/guides/developer-guide/the-api/
+    baseURL: https://docs.vendure.io/guides/developer-guide/the-api/
+    tags:
+      - GraphQL
+      - Storefront
+      - Shop
+      - Commerce
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/guides/developer-guide/the-api/
+  - aid: vendure:admin-api
+    name: Vendure Admin GraphQL API
+    description: >-
+      Privileged GraphQL API consumed by the Vendure admin UI and back-office
+      tooling - catalogue, channels, orders, customers, fulfillment, promotions,
+      tax, zones, users and roles, jobs, and system configuration. Mounted at
+      /admin-api on the Vendure server.
+    humanURL: https://docs.vendure.io/guides/developer-guide/the-api/
+    baseURL: https://docs.vendure.io/guides/developer-guide/the-api/
+    tags:
+      - GraphQL
+      - Admin
+      - Back-Office
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/guides/developer-guide/the-api/
+  - aid: vendure:core
+    name: Vendure Core
+    description: >-
+      The Vendure server framework - NestJS application with TypeORM
+      persistence, GraphQL Shop and Admin APIs, a plugin system, job queue,
+      event bus, and config interfaces for custom strategies (payment,
+      shipping, tax, search, ...).
+    humanURL: https://docs.vendure.io/guides/getting-started/installation/
+    baseURL: https://github.com/vendure-ecommerce/vendure
+    tags:
+      - Framework
+      - Server
+      - NestJS
+      - TypeScript
+    properties:
+      - type: Repository
+        url: https://github.com/vendure-ecommerce/vendure
+      - type: Documentation
+        url: https://docs.vendure.io/guides/getting-started/installation/
+  - aid: vendure:cli
+    name: Vendure CLI (@vendure/create)
+    description: >-
+      Command-line tooling for scaffolding new Vendure projects, generating
+      plugins, entities, and migrations, and running developer commands.
+    humanURL: https://docs.vendure.io/guides/getting-started/installation/
+    baseURL: https://github.com/vendure-ecommerce/vendure
+    tags:
+      - CLI
+      - Tooling
+      - Developer Experience
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/guides/getting-started/installation/
+      - type: Repository
+        url: https://github.com/vendure-ecommerce/vendure
+  - aid: vendure:dashboard
+    name: Vendure Dashboard
+    description: >-
+      Official admin UI for Vendure built against the Admin GraphQL API -
+      catalog, orders, customers, promotions, settings, and plugin-contributed
+      surfaces.
+    humanURL: https://docs.vendure.io/
+    baseURL: https://github.com/vendure-ecommerce/vendure
+    tags:
+      - Dashboard
+      - Admin
+      - UI
+    properties:
+      - type: Repository
+        url: https://github.com/vendure-ecommerce/vendure
+      - type: Documentation
+        url: https://docs.vendure.io/
+  - aid: vendure:community-plugins
+    name: Vendure Community Plugins
+    description: >-
+      Officially maintained and community-contributed plugins that extend the
+      Vendure server with payments (Braintree, Stripe), search (Algolia,
+      Elasticsearch), email, asset storage, and more.
+    humanURL: https://docs.vendure.io/current/community-plugins/braintree-plugin
+    baseURL: https://github.com/vendure-ecommerce/vendure
+    tags:
+      - Plugins
+      - Extensions
+      - Integrations
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/current/community-plugins/braintree-plugin
+      - type: Repository
+        url: https://github.com/vendure-ecommerce/vendure
+  - aid: vendure:platform
+    name: Vendure Platform (Hosted)
+    description: >-
+      Commercial managed hosting and tooling for Vendure - provisioning,
+      deploys, environments, and operational tooling on top of Vendure Core.
+    humanURL: https://docs.vendure.io/current/platform/getting-started/introduction
+    baseURL: https://vendure.io/platform
+    tags:
+      - Hosted
+      - Cloud
+      - SaaS
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/current/platform/getting-started/introduction
+  - aid: vendure:docs-mcp
+    name: Vendure Docs MCP Server
+    description: >-
+      Remote Model Context Protocol server exposing the Vendure documentation
+      to LLM coding assistants (Claude Code, Cursor, VS Code, Windsurf) for
+      grounded code generation against Vendure APIs and plugin patterns.
+    humanURL: https://docs.vendure.io/
+    baseURL: https://docs.vendure.io/mcp
+    tags:
+      - MCP
+      - AI
+      - LLM
+      - Documentation
+    properties:
+      - type: Documentation
+        url: https://docs.vendure.io/
+common:
+  - type: Website
+    url: https://vendure.io/
+  - type: Documentation
+    url: https://docs.vendure.io/
+  - type: GitHub
+    url: https://github.com/vendure-ecommerce/vendure
+  - type: Hub
+    url: https://vendure.io/hub
+  - type: Platform
+    url: https://vendure.io/platform
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/vendure
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
