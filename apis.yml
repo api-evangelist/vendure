@@ -169,6 +169,8 @@ common:
     url: https://vendure.io/platform
   - type: LinkedIn
     url: https://www.linkedin.com/company/vendure
+  - type: LLMsTxt
+    url: https://docs.vendure.io/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
