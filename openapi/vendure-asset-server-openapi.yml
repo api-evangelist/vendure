@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Vendure Asset Server API
+  version: '3.6'
+  description: |
+    REST surface exposed by `@vendure/asset-server-plugin`. The Asset Server
+    plugin serves binary assets (images, files) uploaded via the Admin API
+    and applies on-the-fly image transforms (preset, width, height, mode,
+    format) for use by storefronts and the Vendure Dashboard.
+
+    The plugin mounts at a configurable route (default `/assets`) and
+    optionally a `/preview` route for transform previews. Storage can be
+    local filesystem or an S3-compatible backend.
+  contact:
+    name: Vendure
+    url: https://docs.vendure.io/
+  license:
+    name: GPL-3.0
+    url: https://github.com/vendurehq/vendure/blob/master/LICENSE
+servers:
+  - url: http://localhost:3000
+    description: Default development server
+paths:
+  /assets/{assetPath}:
+    get:
+      summary: Retrieve Asset
+      operationId: getAsset
+      description: |
+        Serves the stored binary for the asset at `assetPath`. Supports
+        image transforms via query parameters when the asset is an image.
+        Responses include `Content-Type`, `Content-Length`, `ETag`, and
+        cache headers; ranged requests are supported for large files.
+      parameters:
+        - $ref: '#/components/parameters/AssetPath'
+        - $ref: '#/components/parameters/PresetQuery'
+        - $ref: '#/components/parameters/WidthQuery'
+        - $ref: '#/components/parameters/HeightQuery'
+        - $ref: '#/components/parameters/ModeQuery'
+        - $ref: '#/components/parameters/FormatQuery'
+        - $ref: '#/components/parameters/QualityQuery'
+      responses:
+        '200':
+          description: Asset bytes.
+          content:
+            image/jpeg: { schema: { type: string, format: binary } }
+            image/png: { schema: { type: string, format: binary } }
+            image/webp: { schema: { type: string, format: binary } }
+            image/avif: { schema: { type: string, format: binary } }
+            application/octet-stream: { schema: { type: string, format: binary } }
+        '404':
+          description: Asset not found.
+  /assets/preview/{assetPath}:
+    get:
+      summary: Preview Asset Transform
+      operationId: previewAsset
+      description: |
+        Returns a transformed preview of an image asset. Identical to the
+        `/assets` route but explicitly routed to the preview pipeline; used
+        by the Dashboard for thumbnail rendering.
+      parameters:
+        - $ref: '#/components/parameters/AssetPath'
+        - $ref: '#/components/parameters/PresetQuery'
+        - $ref: '#/components/parameters/WidthQuery'
+        - $ref: '#/components/parameters/HeightQuery'
+        - $ref: '#/components/parameters/ModeQuery'
+        - $ref: '#/components/parameters/FormatQuery'
+        - $ref: '#/components/parameters/QualityQuery'
+      responses:
+        '200':
+          description: Transformed image bytes.
+          content:
+            image/jpeg: { schema: { type: string, format: binary } }
+            image/png: { schema: { type: string, format: binary } }
+            image/webp: { schema: { type: string, format: binary } }
+        '404':
+          description: Asset not found.
+components:
+  parameters:
+    AssetPath:
+      name: assetPath
+      in: path
+      required: true
+      description: The stored asset path (filename and any storage prefix).
+      schema: { type: string }
+      example: source/91/demo-product.jpg
+    PresetQuery:
+      name: preset
+      in: query
+      required: false
+      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
+      schema:
+        type: string
+        enum: [tiny, thumb, small, medium, large]
+    WidthQuery:
+      name: w
+      in: query
+      required: false
+      description: Target width in pixels.
+      schema: { type: integer, minimum: 1, maximum: 8192 }
+    HeightQuery:
+      name: h
+      in: query
+      required: false
+      description: Target height in pixels.
+      schema: { type: integer, minimum: 1, maximum: 8192 }
+    ModeQuery:
+      name: mode
+      in: query
+      required: false
+      description: Fit mode for resizing.
+      schema:
+        type: string
+        enum: [crop, resize]
+    FormatQuery:
+      name: format
+      in: query
+      required: false
+      description: Output format override.
+      schema:
+        type: string
+        enum: [jpg, jpeg, png, webp, avif]
+    QualityQuery:
+      name: q
+      in: query
+      required: false
+      description: Output quality (1-100) for lossy formats.
+      schema: { type: integer, minimum: 1, maximum: 100 }
+tags:
+  - name: Assets

@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Admin API — Orders
+  description: >-
+    Vendure Admin API capability for order management: list, inspect,
+    transition state, fulfill, cancel, refund, settle payment, add manual
+    payment, modify orders. Requires Read/Update Order permissions.
+  tags:
+    - Vendure
+    - Admin
+    - Orders
+    - Fulfillment
+    - Payments
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_ADMIN_API_URL: VENDURE_ADMIN_API_URL
+      VENDURE_ADMIN_TOKEN: VENDURE_ADMIN_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: admin-orders
+      baseUri: '{{env.VENDURE_ADMIN_API_URL}}'
+      description: Vendure Admin GraphQL endpoint for order operations.
+      resources:
+        - name: admin-graphql
+          path: /
+          operations:
+            - { name: queryOrders, method: POST, description: List orders., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryOrder, method: POST, description: Get an order by id., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: transitionOrderToState, method: POST, description: Transition order state., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: addFulfillmentToOrder, method: POST, description: Create a fulfillment for an order., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: cancelOrder, method: POST, description: Cancel an order or lines on an order., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: refundOrder, method: POST, description: Refund payments on an order., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: settlePayment, method: POST, description: Settle (capture) an authorized payment., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: addManualPaymentToOrder, method: POST, description: Add a manual payment to an order., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: modifyOrder, method: POST, description: Modify a completed order (add/remove lines, adjust)., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+      authentication:
+        type: bearer
+        token: '{{env.VENDURE_ADMIN_TOKEN}}'
+  exposes:
+    - type: rest
+      namespace: admin-orders-rest
+      port: 8080
+      description: REST adapter exposing Admin order operations.
+      resources:
+        - { path: /v1/admin/orders/query, name: orders, operations: [ { method: POST, name: queryOrders, call: admin-orders.queryOrders, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/query, name: order, operations: [ { method: POST, name: queryOrder, call: admin-orders.queryOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/transition, name: order-transition, operations: [ { method: POST, name: transitionOrderToState, call: admin-orders.transitionOrderToState, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/fulfillment, name: fulfillment, operations: [ { method: POST, name: addFulfillmentToOrder, call: admin-orders.addFulfillmentToOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/cancel, name: order-cancel, operations: [ { method: POST, name: cancelOrder, call: admin-orders.cancelOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/refund, name: order-refund, operations: [ { method: POST, name: refundOrder, call: admin-orders.refundOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/payment-settle, name: payment-settle, operations: [ { method: POST, name: settlePayment, call: admin-orders.settlePayment, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/payment-manual, name: payment-manual, operations: [ { method: POST, name: addManualPaymentToOrder, call: admin-orders.addManualPaymentToOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/order/modify, name: order-modify, operations: [ { method: POST, name: modifyOrder, call: admin-orders.modifyOrder, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+    - type: mcp
+      namespace: admin-orders-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per Admin order operation.
+      tools:
+        - { name: vendure-admin-list-orders, description: List orders., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-orders.queryOrders, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-get-order, description: Get an order by id., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-orders.queryOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-transition-order, description: Transition order state., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-orders.transitionOrderToState, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-fulfill-order, description: Add a fulfillment to an order., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-orders.addFulfillmentToOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-cancel-order, description: Cancel an order or selected lines., hints: { readOnly: false, destructive: true, idempotent: true }, call: admin-orders.cancelOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-refund-order, description: Refund payments on an order., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-orders.refundOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-settle-payment, description: Settle an authorized payment., hints: { readOnly: false, destructive: false, idempotent: true }, call: admin-orders.settlePayment, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-add-manual-payment, description: Add a manual payment to an order., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-orders.addManualPaymentToOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-modify-order, description: Modify a completed order., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-orders.modifyOrder, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }

@@ -1,0 +1,30 @@
+{
+  "description": "Example: faceted search on the Shop API.",
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3000/shop-api",
+    "headers": { "Content-Type": "application/json" },
+    "body": {
+      "query": "query Search($input: SearchInput!) { search(input: $input) { totalItems facetValues { count facetValue { id name facet { name } } } items { productId productName slug priceWithTax { ... on PriceRange { min max } ... on SinglePrice { value } } } } }",
+      "variables": {
+        "input": { "term": "headphones", "take": 10, "groupByProduct": true }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "search": {
+          "totalItems": 3,
+          "facetValues": [
+            { "count": 3, "facetValue": { "id": "1", "name": "Audio", "facet": { "name": "Category" } } }
+          ],
+          "items": [
+            { "productId": "12", "productName": "Wireless Headphones", "slug": "wireless-headphones", "priceWithTax": { "min": 2499, "max": 3999 } }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Admin API — Jobs
+  description: >-
+    Vendure Admin API capability for the job queue: inspect jobs, cancel
+    jobs, list scheduled tasks, and read buffer sizes. Useful for operating
+    the search index, email pipeline, and custom plugin work.
+  tags:
+    - Vendure
+    - Admin
+    - Jobs
+    - JobQueue
+    - Operations
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_ADMIN_API_URL: VENDURE_ADMIN_API_URL
+      VENDURE_ADMIN_TOKEN: VENDURE_ADMIN_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: admin-jobs
+      baseUri: '{{env.VENDURE_ADMIN_API_URL}}'
+      description: Vendure Admin GraphQL endpoint for job operations.
+      resources:
+        - name: admin-graphql
+          path: /
+          operations:
+            - { name: queryJobs, method: POST, description: List jobs., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryJob, method: POST, description: Get a job by id., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryJobsById, method: POST, description: Get multiple jobs by id., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryJobQueues, method: POST, description: List job queues., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryJobBufferSize, method: POST, description: Read buffered job counts., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: cancelJob, method: POST, description: Cancel a queued or running job., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryScheduledTasks, method: POST, description: List scheduled tasks., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryPendingSearchIndexUpdates, method: POST, description: Count pending search index updates., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: runPendingSearchIndexUpdates, method: POST, description: Trigger pending search index updates., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+      authentication:
+        type: bearer
+        token: '{{env.VENDURE_ADMIN_TOKEN}}'
+  exposes:
+    - type: rest
+      namespace: admin-jobs-rest
+      port: 8080
+      description: REST adapter exposing Admin job operations.
+      resources:
+        - { path: /v1/admin/jobs/query, name: jobs, operations: [ { method: POST, name: queryJobs, call: admin-jobs.queryJobs, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/job/query, name: job, operations: [ { method: POST, name: queryJob, call: admin-jobs.queryJob, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/jobs-by-id/query, name: jobs-by-id, operations: [ { method: POST, name: queryJobsById, call: admin-jobs.queryJobsById, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/job-queues/query, name: job-queues, operations: [ { method: POST, name: queryJobQueues, call: admin-jobs.queryJobQueues, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/job-buffer/query, name: job-buffer, operations: [ { method: POST, name: queryJobBufferSize, call: admin-jobs.queryJobBufferSize, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/job/cancel, name: job-cancel, operations: [ { method: POST, name: cancelJob, call: admin-jobs.cancelJob, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/scheduled-tasks/query, name: scheduled-tasks, operations: [ { method: POST, name: queryScheduledTasks, call: admin-jobs.queryScheduledTasks, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/search-index/pending, name: search-index-pending, operations: [ { method: POST, name: queryPendingSearchIndexUpdates, call: admin-jobs.queryPendingSearchIndexUpdates, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/search-index/run, name: search-index-run, operations: [ { method: POST, name: runPendingSearchIndexUpdates, call: admin-jobs.runPendingSearchIndexUpdates, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+    - type: mcp
+      namespace: admin-jobs-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per Admin job operation.
+      tools:
+        - { name: vendure-admin-list-jobs, description: List jobs., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-jobs.queryJobs, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-get-job, description: Get a job by id., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-jobs.queryJob, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-list-job-queues, description: List job queues., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-jobs.queryJobQueues, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-cancel-job, description: Cancel a job., hints: { readOnly: false, destructive: true, idempotent: true }, call: admin-jobs.cancelJob, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-list-scheduled-tasks, description: List scheduled tasks., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-jobs.queryScheduledTasks, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-pending-search-index, description: Count pending search index updates., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-jobs.queryPendingSearchIndexUpdates, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-run-search-index, description: Run pending search index updates., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-jobs.runPendingSearchIndexUpdates, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }

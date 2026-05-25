@@ -1,0 +1,102 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "vendure": "https://docs.vendure.io/reference/typescript-api/",
+    "Product": "schema:Product",
+    "Offer": "schema:Offer",
+    "Order": "schema:Order",
+    "Customer": "schema:Person",
+    "Organization": "schema:Organization",
+    "PaymentMethod": "schema:PaymentMethod",
+    "PostalAddress": "schema:PostalAddress",
+    "id": "@id",
+    "type": "@type",
+    "name": "schema:name",
+    "description": "schema:description",
+    "slug": "schema:identifier",
+    "sku": "schema:sku",
+    "price": "schema:price",
+    "priceWithTax": "schema:price",
+    "currencyCode": "schema:priceCurrency",
+    "image": "schema:image",
+    "url": "schema:url",
+    "code": {
+      "@id": "schema:identifier",
+      "@type": "@id"
+    },
+    "emailAddress": "schema:email",
+    "firstName": "schema:givenName",
+    "lastName": "schema:familyName",
+    "phoneNumber": "schema:telephone",
+    "streetLine1": "schema:streetAddress",
+    "city": "schema:addressLocality",
+    "province": "schema:addressRegion",
+    "postalCode": "schema:postalCode",
+    "country": "schema:addressCountry",
+    "countryCode": "schema:addressCountry",
+    "totalWithTax": "schema:totalPrice",
+    "totalQuantity": "schema:orderQuantity",
+    "state": "schema:orderStatus",
+    "createdAt": "schema:dateCreated",
+    "updatedAt": "schema:dateModified",
+    "shippingAddress": "schema:shippingAddress",
+    "billingAddress": "schema:billingAddress",
+    "customer": "schema:customer",
+    "lines": {
+      "@id": "schema:orderedItem",
+      "@container": "@set"
+    },
+    "shippingMethod": "schema:deliveryMethod",
+    "trackingCode": "schema:trackingNumber",
+    "variants": {
+      "@id": "schema:hasVariant",
+      "@container": "@set"
+    },
+    "options": {
+      "@id": "schema:additionalProperty",
+      "@container": "@set"
+    },
+    "channel": "vendure:Channel",
+    "seller": "schema:seller",
+    "facetValues": "schema:additionalProperty",
+    "facet": "schema:propertyID",
+    "promotions": "schema:discount",
+    "couponCodes": "schema:discountCode",
+    "fulfillments": {
+      "@id": "schema:deliveryStatus",
+      "@container": "@set"
+    },
+    "payments": {
+      "@id": "schema:paymentMethod",
+      "@container": "@set"
+    },
+    "languageCode": "schema:inLanguage",
+    "translations": {
+      "@id": "schema:translationOfWork",
+      "@container": "@set"
+    },
+    "stockLevel": "schema:availability",
+    "shippingLines": "schema:deliveryMethod"
+  },
+  "@graph": [
+    {
+      "@id": "https://docs.vendure.io/reference/typescript-api/entities/product",
+      "@type": "schema:DefinedTerm",
+      "name": "Vendure Product",
+      "description": "A sellable item in a Vendure catalogue. Maps to schema.org/Product."
+    },
+    {
+      "@id": "https://docs.vendure.io/reference/typescript-api/entities/order",
+      "@type": "schema:DefinedTerm",
+      "name": "Vendure Order",
+      "description": "A customer order tracked through the Vendure order state machine. Maps to schema.org/Order."
+    },
+    {
+      "@id": "https://docs.vendure.io/reference/typescript-api/entities/customer",
+      "@type": "schema:DefinedTerm",
+      "name": "Vendure Customer",
+      "description": "A shop customer. Maps to schema.org/Person with commerce extensions."
+    }
+  ]
+}

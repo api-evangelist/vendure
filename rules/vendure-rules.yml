@@ -1,0 +1,102 @@
+extends: spectral:oas
+documentationUrl: https://github.com/api-evangelist/vendure
+description: >-
+  Spectral ruleset for Vendure OpenAPI specs. Encodes the conventions used by
+  the Shop API, Admin API, and Asset Server REST surface modelled in this
+  repository.
+rules:
+  vendure-info-license-gpl:
+    description: License must reference GPL-3.0 (Vendure Core license).
+    severity: warn
+    given: $.info.license
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: '^GPL-3\.0$'
+
+  vendure-info-contact-docs:
+    description: Contact URL should point to docs.vendure.io.
+    severity: info
+    given: $.info.contact
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: '^https?://docs\.vendure\.io'
+
+  vendure-graphql-endpoint-uses-post:
+    description: GraphQL endpoints must only expose POST.
+    severity: error
+    given: "$.paths[?(@property == '/' || @property == '/shop-api' || @property == '/admin-api')]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          not:
+            anyOf:
+              - required: [get]
+              - required: [put]
+              - required: [patch]
+              - required: [delete]
+
+  vendure-operation-summary-title-case:
+    description: Operation summaries must use Title Case.
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]*(?:\s+(?:[A-Z][A-Za-z0-9]*|[A-Z]+|(?:A|An|And|As|At|But|By|For|In|Of|On|Or|The|To|Via|With)))*$'
+
+  vendure-operation-has-operation-id:
+    description: Every operation must have an operationId.
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: operationId
+      function: truthy
+
+  vendure-channel-token-header-name:
+    description: When a parameter selects a channel token, the header must be named `vendure-token`.
+    severity: warn
+    given: "$..parameters[?(@.in == 'header' && @.description && @.description.match(/channel/i))]"
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: '^vendure-token$'
+
+  vendure-asset-server-route-prefix:
+    description: Asset Server paths must live under `/assets` or `/assets/preview`.
+    severity: warn
+    given: "$.paths"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          patternProperties:
+            '^/assets(?:/preview)?(?:/[A-Za-z0-9{}._-]+)+$': true
+          additionalProperties: true
+
+  vendure-error-response-shape:
+    description: 4xx responses should include a description.
+    severity: warn
+    given: "$.paths[*][*].responses[?(@property.match(/^4\\d\\d$/))]"
+    then:
+      field: description
+      function: truthy
+
+  vendure-tags-defined:
+    description: Each operation should have at least one tag.
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: tags
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1

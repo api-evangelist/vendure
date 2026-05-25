@@ -4,49 +4,127 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Vendure
 providerId: vendure
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-05-25'
+reconciled: false
 tags:
-- Commerce
-- Headless
-- eCommerce
-- GraphQL
-- Open Source
-- TypeScript
-- NestJS
-description: Machine-readable plans scaffold for the Vendure API surface. Conforms to the API Commons Plans schema. Tier limits
-  and prices are scaffold defaults; replace with provider-published values.
+  - Commerce
+  - Headless
+  - eCommerce
+  - GraphQL
+  - Open Source
+  - TypeScript
+  - NestJS
+description: >-
+  Plans surface for Vendure. Vendure Core is open source (GPLv3) with no
+  request-metered pricing — operators self-host and pay only for their
+  underlying infrastructure. Commercial layers (Vendure Platform, Vendure
+  Cloud) are sold on annual flat-fee contracts negotiated with Vendure; this
+  document records the published structure and links out for current
+  numbers.
+sources:
+  - https://vendure.io/pricing
+  - https://vendure.io/platform
+  - https://vendure.io/cloud
 plans:
-- id: vendure-free
-  name: Free
-  type: freemium
-  description: Free entry tier for the Vendure API surface. Intended for evaluation, prototyping, and low-volume integrations.
-    Real limits and pricing must be reconciled with the provider's published plan documentation.
-  entries:
-  - label: API Requests
-    description: Monthly API request quota across all included endpoints
-    name: api_requests
-    type: quota
-    metric: requests
-    limit: 1000
-    timeFrame: month
-    geo: global
-    domains:
-    - https://docs.vendure.io/guides/developer-guide/the-api/
-    unit: 1
-    price: '0.00'
-    userMultiplied: false
-  - label: Rate Limit
-    description: Maximum requests per minute on the free tier
-    name: rate_limit
-    type: rate
-    metric: requests_per_minute
-    limit: 10
-    timeFrame: minute
-    geo: global
-    domains:
-    - https://docs.vendure.io/guides/developer-guide/the-api/
-    unit: 1
-    price: '0.00'
+  - id: vendure-core
+    name: Vendure Core
+    type: open-source
+    description: >-
+      The Vendure server framework and standard plugins, distributed under
+      GPLv3. Free to use; operators run the framework on their own
+      infrastructure. There is no per-request, per-order, or GMV-based fee
+      from Vendure for Core itself.
+    entries:
+      - label: Framework License
+        name: license
+        type: free
+        metric: license
+        limit: -1
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: API Requests
+        description: >-
+          No metering at the framework level. Operators size their own
+          infrastructure (database, CPU, memory) to absorb request volume.
+        name: api_requests
+        type: unlimited
+        metric: requests
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+  - id: vendure-platform
+    name: Vendure Platform
+    type: enterprise
+    description: >-
+      Commercial capability layer on top of Vendure Core. Includes 20+
+      enterprise plugins (advanced B2B, contract pricing, SSO, audit,
+      governance), a production-ready Next.js storefront, AI tooling,
+      dedicated support, quarterly roadmap calls, and a commercial license
+      alternative to GPLv3. Sold on an annual flat-fee contract — not
+      GMV-priced. Contact Vendure sales for current numbers.
+    entries:
+      - label: Annual Subscription
+        name: annual_subscription
+        type: contracted
+        metric: contract
+        limit: 1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: contact-sales
+        userMultiplied: false
+        notes: Annual flat fee; not metered on GMV or request volume.
+      - label: Commercial License
+        name: commercial_license
+        type: contracted
+        metric: license
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: contact-sales
+        userMultiplied: false
+  - id: vendure-cloud
+    name: Vendure Cloud
+    type: managed-hosted
+    description: >-
+      Managed hosting for Vendure (Core or Platform). Auto-scaling,
+      automated backups, multi-region deployments, EU data residency,
+      monitoring and observability. Available now for design partners with
+      general availability scheduled Q4 2026. Pricing is contract-based;
+      contact Vendure sales for current numbers.
+    entries:
+      - label: Hosted Subscription
+        name: hosted_subscription
+        type: contracted
+        metric: contract
+        limit: 1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: contact-sales
+        userMultiplied: false
+        notes: Design partner GA Q4 2026.
 references:
-- name: Vendure API Documentation
-  url: https://raw.githubusercontent.com/api-evangelist/vendure/refs/heads/main/apis.yml
+  - name: Vendure Pricing
+    url: https://vendure.io/pricing
+  - name: Vendure Platform
+    url: https://vendure.io/platform
+  - name: Vendure Cloud
+    url: https://vendure.io/cloud
+  - name: Vendure Repository
+    url: https://github.com/vendurehq/vendure
+notes:
+  - >-
+    Vendure publishes capability layers (Core vs Platform) independently of
+    deployment options (self-hosted vs Cloud). Cost depends on which layer
+    and deployment combination is chosen.
+  - >-
+    Commercial pricing is not listed publicly; this document records the
+    structure and links to the source-of-truth pages.

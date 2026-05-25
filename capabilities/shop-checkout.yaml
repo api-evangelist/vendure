@@ -1,0 +1,184 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Shop API — Checkout
+  description: >-
+    Vendure Shop API capability for completing checkout: set shipping and
+    billing addresses, select eligible shipping methods, transition order
+    state, add payments. Backed by the Shop GraphQL endpoint.
+  tags:
+    - Vendure
+    - Shop
+    - Checkout
+    - Payment
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_SHOP_API_URL: VENDURE_SHOP_API_URL
+      VENDURE_AUTH_TOKEN: VENDURE_AUTH_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: shop-checkout
+      baseUri: '{{env.VENDURE_SHOP_API_URL}}'
+      description: Vendure Shop GraphQL endpoint for checkout operations.
+      resources:
+        - name: shop-graphql
+          path: /
+          operations:
+            - name: setOrderShippingAddress
+              method: POST
+              description: Set the shipping address on the active order.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: setOrderBillingAddress
+              method: POST
+              description: Set the billing address on the active order.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: setOrderShippingMethod
+              method: POST
+              description: Choose a shipping method on the active order.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: eligibleShippingMethods
+              method: POST
+              description: List eligible shipping methods for the active order.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: eligiblePaymentMethods
+              method: POST
+              description: List eligible payment methods for the active order.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: transitionOrderToState
+              method: POST
+              description: Transition the active order to a new state.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: addPaymentToOrder
+              method: POST
+              description: Add a payment to the active order using a payment method handler.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+      authentication:
+        type: bearer
+        token: '{{env.VENDURE_AUTH_TOKEN}}'
+  exposes:
+    - type: rest
+      namespace: shop-checkout-rest
+      port: 8080
+      description: REST adapter exposing checkout operations.
+      resources:
+        - path: /v1/checkout/shipping-address
+          name: shipping-address
+          operations:
+            - method: POST
+              name: setOrderShippingAddress
+              call: shop-checkout.setOrderShippingAddress
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/billing-address
+          name: billing-address
+          operations:
+            - method: POST
+              name: setOrderBillingAddress
+              call: shop-checkout.setOrderBillingAddress
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/shipping-method
+          name: shipping-method
+          operations:
+            - method: POST
+              name: setOrderShippingMethod
+              call: shop-checkout.setOrderShippingMethod
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/eligible-shipping-methods
+          name: eligible-shipping-methods
+          operations:
+            - method: POST
+              name: eligibleShippingMethods
+              call: shop-checkout.eligibleShippingMethods
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/eligible-payment-methods
+          name: eligible-payment-methods
+          operations:
+            - method: POST
+              name: eligiblePaymentMethods
+              call: shop-checkout.eligiblePaymentMethods
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/transition
+          name: transition
+          operations:
+            - method: POST
+              name: transitionOrderToState
+              call: shop-checkout.transitionOrderToState
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/checkout/payment
+          name: payment
+          operations:
+            - method: POST
+              name: addPaymentToOrder
+              call: shop-checkout.addPaymentToOrder
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+    - type: mcp
+      namespace: shop-checkout-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per checkout operation.
+      tools:
+        - name: vendure-shop-set-shipping-address
+          description: Set the shipping address on the active order.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-checkout.setOrderShippingAddress
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-set-billing-address
+          description: Set the billing address on the active order.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-checkout.setOrderBillingAddress
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-set-shipping-method
+          description: Choose a shipping method.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-checkout.setOrderShippingMethod
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-eligible-shipping
+          description: List eligible shipping methods.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-checkout.eligibleShippingMethods
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-eligible-payment
+          description: List eligible payment methods.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-checkout.eligiblePaymentMethods
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-transition-order
+          description: Transition the active order to a new state.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-checkout.transitionOrderToState
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-add-payment
+          description: Add a payment to the active order.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-checkout.addPaymentToOrder
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]

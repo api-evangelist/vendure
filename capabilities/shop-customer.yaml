@@ -1,0 +1,223 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Shop API — Customer
+  description: >-
+    Vendure Shop API capability for customer registration, login, account
+    management, and addresses. Backed by the Shop GraphQL endpoint.
+  tags:
+    - Vendure
+    - Shop
+    - Customer
+    - Account
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_SHOP_API_URL: VENDURE_SHOP_API_URL
+      VENDURE_AUTH_TOKEN: VENDURE_AUTH_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: shop-customer
+      baseUri: '{{env.VENDURE_SHOP_API_URL}}'
+      description: Vendure Shop GraphQL endpoint for customer operations.
+      resources:
+        - name: shop-graphql
+          path: /
+          operations:
+            - name: registerCustomerAccount
+              method: POST
+              description: Register a new customer account.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: login
+              method: POST
+              description: Authenticate a customer via the NATIVE auth strategy.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: logout
+              method: POST
+              description: Terminate the current customer session.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: queryActiveCustomer
+              method: POST
+              description: Read the authenticated customer profile.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: updateCustomer
+              method: POST
+              description: Update the authenticated customer profile.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: requestPasswordReset
+              method: POST
+              description: Request a password reset token by email.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: resetPassword
+              method: POST
+              description: Reset the customer password using a token.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: createCustomerAddress
+              method: POST
+              description: Add an address to the customer account.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+            - name: updateCustomerAddress
+              method: POST
+              description: Update an address on the customer account.
+              outputRawFormat: json
+              outputParameters: [ { name: result, type: object, value: $. } ]
+              inputParameters: [ { name: body, in: body, type: object, required: true } ]
+      authentication:
+        type: bearer
+        token: '{{env.VENDURE_AUTH_TOKEN}}'
+  exposes:
+    - type: rest
+      namespace: shop-customer-rest
+      port: 8080
+      description: REST adapter exposing customer operations.
+      resources:
+        - path: /v1/customer/register
+          name: register
+          operations:
+            - method: POST
+              name: registerCustomerAccount
+              call: shop-customer.registerCustomerAccount
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/login
+          name: login
+          operations:
+            - method: POST
+              name: login
+              call: shop-customer.login
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/logout
+          name: logout
+          operations:
+            - method: POST
+              name: logout
+              call: shop-customer.logout
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/me
+          name: me
+          operations:
+            - method: POST
+              name: queryActiveCustomer
+              call: shop-customer.queryActiveCustomer
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/update
+          name: update
+          operations:
+            - method: POST
+              name: updateCustomer
+              call: shop-customer.updateCustomer
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/password/reset-request
+          name: password-reset-request
+          operations:
+            - method: POST
+              name: requestPasswordReset
+              call: shop-customer.requestPasswordReset
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/password/reset
+          name: password-reset
+          operations:
+            - method: POST
+              name: resetPassword
+              call: shop-customer.resetPassword
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/address
+          name: address
+          operations:
+            - method: POST
+              name: createCustomerAddress
+              call: shop-customer.createCustomerAddress
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/customer/address-update
+          name: address-update
+          operations:
+            - method: POST
+              name: updateCustomerAddress
+              call: shop-customer.updateCustomerAddress
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+    - type: mcp
+      namespace: shop-customer-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per customer operation.
+      tools:
+        - name: vendure-shop-register-customer
+          description: Register a new customer account.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-customer.registerCustomerAccount
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-login
+          description: Log in a customer.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-customer.login
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-logout
+          description: Log out the current customer.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-customer.logout
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-get-active-customer
+          description: Read the authenticated customer profile.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-customer.queryActiveCustomer
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-update-customer
+          description: Update the authenticated customer profile.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-customer.updateCustomer
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-request-password-reset
+          description: Request a password reset by email.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-customer.requestPasswordReset
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-reset-password
+          description: Reset the customer password using a token.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-customer.resetPassword
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-create-address
+          description: Create a customer address.
+          hints: { readOnly: false, destructive: false, idempotent: false }
+          call: shop-customer.createCustomerAddress
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-update-address
+          description: Update a customer address.
+          hints: { readOnly: false, destructive: false, idempotent: true }
+          call: shop-customer.updateCustomerAddress
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]

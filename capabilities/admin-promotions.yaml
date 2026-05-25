@@ -1,0 +1,65 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Admin API — Promotions
+  description: >-
+    Vendure Admin API capability for promotion configuration: list, create,
+    and update promotions, inspect available condition and action
+    definitions.
+  tags:
+    - Vendure
+    - Admin
+    - Promotions
+    - Discounts
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_ADMIN_API_URL: VENDURE_ADMIN_API_URL
+      VENDURE_ADMIN_TOKEN: VENDURE_ADMIN_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: admin-promotions
+      baseUri: '{{env.VENDURE_ADMIN_API_URL}}'
+      description: Vendure Admin GraphQL endpoint for promotion operations.
+      resources:
+        - name: admin-graphql
+          path: /
+          operations:
+            - { name: queryPromotions, method: POST, description: List promotions., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryPromotion, method: POST, description: Get a promotion., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: createPromotion, method: POST, description: Create a promotion., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: updatePromotion, method: POST, description: Update a promotion., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: deletePromotion, method: POST, description: Delete a promotion., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryPromotionConditions, method: POST, description: List available promotion condition definitions., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+            - { name: queryPromotionActions, method: POST, description: List available promotion action definitions., outputRawFormat: json, outputParameters: [ { name: result, type: object, value: $. } ], inputParameters: [ { name: body, in: body, type: object, required: true } ] }
+      authentication:
+        type: bearer
+        token: '{{env.VENDURE_ADMIN_TOKEN}}'
+  exposes:
+    - type: rest
+      namespace: admin-promotions-rest
+      port: 8080
+      description: REST adapter exposing Admin promotion operations.
+      resources:
+        - { path: /v1/admin/promotions/query, name: promotions, operations: [ { method: POST, name: queryPromotions, call: admin-promotions.queryPromotions, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion/query, name: promotion, operations: [ { method: POST, name: queryPromotion, call: admin-promotions.queryPromotion, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion/create, name: promotion-create, operations: [ { method: POST, name: createPromotion, call: admin-promotions.createPromotion, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion/update, name: promotion-update, operations: [ { method: POST, name: updatePromotion, call: admin-promotions.updatePromotion, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion/delete, name: promotion-delete, operations: [ { method: POST, name: deletePromotion, call: admin-promotions.deletePromotion, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion-conditions/query, name: promotion-conditions, operations: [ { method: POST, name: queryPromotionConditions, call: admin-promotions.queryPromotionConditions, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+        - { path: /v1/admin/promotion-actions/query, name: promotion-actions, operations: [ { method: POST, name: queryPromotionActions, call: admin-promotions.queryPromotionActions, with: { body: rest.body }, outputParameters: [ { type: object, mapping: $. } ] } ] }
+    - type: mcp
+      namespace: admin-promotions-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per Admin promotion operation.
+      tools:
+        - { name: vendure-admin-list-promotions, description: List promotions., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-promotions.queryPromotions, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-get-promotion, description: Get a promotion., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-promotions.queryPromotion, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-create-promotion, description: Create a promotion., hints: { readOnly: false, destructive: false, idempotent: false }, call: admin-promotions.createPromotion, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-update-promotion, description: Update a promotion., hints: { readOnly: false, destructive: false, idempotent: true }, call: admin-promotions.updatePromotion, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-delete-promotion, description: Delete a promotion., hints: { readOnly: false, destructive: true, idempotent: true }, call: admin-promotions.deletePromotion, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-list-promotion-conditions, description: List promotion condition definitions., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-promotions.queryPromotionConditions, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }
+        - { name: vendure-admin-list-promotion-actions, description: List promotion action definitions., hints: { readOnly: true, destructive: false, idempotent: true }, call: admin-promotions.queryPromotionActions, with: { body: tools.body }, outputParameters: [ { type: object, mapping: $. } ] }

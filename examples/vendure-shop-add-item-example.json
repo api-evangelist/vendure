@@ -1,0 +1,28 @@
+{
+  "description": "Example: add a product variant to the active order.",
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3000/shop-api",
+    "headers": {
+      "Content-Type": "application/json",
+      "vendure-token": "default-channel-token"
+    },
+    "body": {
+      "query": "mutation AddItem($variantId: ID!, $quantity: Int!) { addItemToOrder(productVariantId: $variantId, quantity: $quantity) { ... on Order { id code totalQuantity totalWithTax } ... on ErrorResult { errorCode message } } }",
+      "variables": { "variantId": "42", "quantity": 1 }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "addItemToOrder": {
+          "id": "1",
+          "code": "1XJTYJB99CSHV9JE",
+          "totalQuantity": 1,
+          "totalWithTax": 2499
+        }
+      }
+    }
+  }
+}

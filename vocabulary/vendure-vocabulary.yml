@@ -1,0 +1,184 @@
+vocabulary: 0.1
+provider: Vendure
+providerId: vendure
+description: >-
+  Operational and capability vocabulary for the Vendure headless commerce
+  framework. Anchors the canonical names used across the Shop and Admin
+  GraphQL APIs, plugin system, and Vendure Platform / Cloud surfaces.
+created: '2026-05-25'
+modified: '2026-05-25'
+tags:
+  - Commerce
+  - Headless
+  - eCommerce
+  - GraphQL
+  - Open Source
+  - TypeScript
+
+domains:
+  - id: catalog
+    name: Catalog
+    description: Products, variants, options, collections, facets, assets.
+    concepts:
+      - Product
+      - ProductVariant
+      - ProductOption
+      - ProductOptionGroup
+      - Collection
+      - Facet
+      - FacetValue
+      - Asset
+      - Tag
+  - id: orders
+    name: Orders & Fulfillment
+    description: Order state machine, fulfillment, payments, refunds.
+    concepts:
+      - Order
+      - OrderLine
+      - OrderState
+      - Fulfillment
+      - Payment
+      - Refund
+      - Surcharge
+      - Promotion
+  - id: customers
+    name: Customers
+    description: Customer accounts, addresses, groups, and authentication.
+    concepts:
+      - Customer
+      - CustomerGroup
+      - Address
+      - User
+      - Role
+      - AuthenticationMethod
+  - id: channels
+    name: Channels & Sellers
+    description: Multi-channel, multi-seller, multi-currency configuration.
+    concepts:
+      - Channel
+      - Seller
+      - StockLocation
+      - Currency
+      - Zone
+      - Country
+      - Province
+  - id: tax
+    name: Tax
+    description: Tax categories, rates, and zone-based tax calculation.
+    concepts:
+      - TaxCategory
+      - TaxRate
+      - TaxLine
+  - id: shipping
+    name: Shipping
+    description: Shipping methods, calculators, eligibility checkers.
+    concepts:
+      - ShippingMethod
+      - ShippingCalculator
+      - ShippingEligibilityChecker
+      - ShippingLine
+  - id: jobs
+    name: Jobs & Background Work
+    description: Job queue, scheduled tasks, buffered jobs.
+    concepts:
+      - Job
+      - JobQueue
+      - JobBuffer
+      - ScheduledTask
+  - id: settings
+    name: Settings & Configuration
+    description: Global settings, settings store, administrators, roles, API keys.
+    concepts:
+      - GlobalSettings
+      - SettingsStore
+      - Administrator
+      - Role
+      - Permission
+      - ApiKey
+  - id: plugins
+    name: Plugins & Extensibility
+    description: Vendure plugin system, custom fields, event bus, lifecycle hooks.
+    concepts:
+      - VendurePlugin
+      - CustomField
+      - EventBus
+      - VendureEvent
+      - CustomEntity
+
+terms:
+  - term: Shop API
+    description: Public GraphQL API consumed by storefronts; default `/shop-api` path.
+    canonical: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  - term: Admin API
+    description: Privileged GraphQL API consumed by the Dashboard and back-office tooling; default `/admin-api` path.
+    canonical: https://docs.vendure.io/reference/graphql-api/admin/queries/
+  - term: Active Order
+    description: The current in-flight order (cart) for an anonymous or authenticated Shop API session.
+  - term: Channel
+    description: A unit of multi-tenancy in Vendure — assigns products, prices, and configuration to a storefront context.
+  - term: Channel Token
+    description: Header (`vendure-token` by default) selecting which Channel a request applies to.
+  - term: Seller
+    description: A merchant entity in a multi-vendor configuration. Channels reference a Seller.
+  - term: NATIVE Auth
+    description: Vendure's built-in username/password authentication strategy. Other strategies plug in alongside.
+  - term: GPLv3
+    description: License of Vendure Core (`@vendure/core` and standard plugins).
+  - term: Vendure Platform
+    description: Commercial capability layer adding enterprise plugins, AI tooling, and a commercial license.
+  - term: Vendure Cloud
+    description: Managed hosting for Vendure (Core or Platform) — design partner GA Q4 2026.
+  - term: MCP
+    description: Model Context Protocol server published by Vendure for grounding AI coding assistants in the Vendure docs.
+
+permissions:
+  description: Built-in Vendure permission flags applied via Roles to Administrators.
+  groups:
+    - Catalog
+    - Customer
+    - Order
+    - Promotion
+    - Administrator
+    - Settings
+    - Channel
+    - System
+  actions:
+    - Create
+    - Read
+    - Update
+    - Delete
+
+orderStates:
+  default:
+    - Created
+    - Draft
+    - AddingItems
+    - ArrangingPayment
+    - PaymentAuthorized
+    - PaymentSettled
+    - PartiallyShipped
+    - Shipped
+    - PartiallyDelivered
+    - Delivered
+    - Modifying
+    - ArrangingAdditionalPayment
+    - Cancelled
+
+paymentStates:
+  default:
+    - Created
+    - Authorized
+    - Settled
+    - Declined
+    - Error
+    - Cancelled
+
+references:
+  - name: Vendure Docs
+    url: https://docs.vendure.io/
+  - name: Vendure GitHub
+    url: https://github.com/vendurehq/vendure
+  - name: Shop API Reference
+    url: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  - name: Admin API Reference
+    url: https://docs.vendure.io/reference/graphql-api/admin/queries/

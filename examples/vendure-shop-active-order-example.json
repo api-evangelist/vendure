@@ -1,0 +1,39 @@
+{
+  "description": "Example: query the active order via the Vendure Shop API.",
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3000/shop-api",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "vendure-token": "default-channel-token"
+    },
+    "body": {
+      "query": "query ActiveOrder { activeOrder { id code state totalQuantity totalWithTax currencyCode lines { id quantity productVariant { id name sku } unitPriceWithTax linePriceWithTax } } }"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "activeOrder": {
+          "id": "1",
+          "code": "1XJTYJB99CSHV9JE",
+          "state": "AddingItems",
+          "totalQuantity": 2,
+          "totalWithTax": 4998,
+          "currencyCode": "USD",
+          "lines": [
+            {
+              "id": "1",
+              "quantity": 2,
+              "productVariant": { "id": "42", "name": "Headphones — Black", "sku": "HP-BLK-01" },
+              "unitPriceWithTax": 2499,
+              "linePriceWithTax": 4998
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -4,55 +4,67 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Vendure
 providerId: vendure
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-05-25'
 tags:
-- Commerce
-- Headless
-- eCommerce
-- GraphQL
-- Open Source
-- TypeScript
-- NestJS
-- Rate Limiting
-- Quotas
-- Throttling
-description: Scaffolded rate limit definitions for the Vendure API surface. Captures per-tier quotas, burst behavior, response
-  signaling, and recovery semantics. Defaults are scaffold values to be replaced with published provider limits.
+  - Commerce
+  - Headless
+  - eCommerce
+  - GraphQL
+  - Open Source
+  - TypeScript
+  - NestJS
+  - Rate Limiting
+  - Throttling
+description: >-
+  Rate limit posture for Vendure. The open-source framework does not impose
+  request rate limits — operators configure their own throttling at the
+  edge (reverse proxy, CDN, API gateway) or via the harden-plugin. This
+  document captures the operator-side controls Vendure exposes plus the
+  GraphQL safety knobs shipped in `@vendure/harden-plugin`.
 headers:
   limit: X-RateLimit-Limit
   remaining: X-RateLimit-Remaining
   reset: X-RateLimit-Reset
   retryAfter: Retry-After
-  policy: RateLimit-Policy
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
   serviceUnavailable: 503
-limits:
-- tier: free
-  name: Free Tier Default
-  scope: api-key
-  metric: requests_per_minute
-  limit: 10
-  burst: 20
-  timeFrame: minute
-  applies:
-  - https://docs.vendure.io/guides/developer-guide/the-api/
-  description: Default per-token request rate for the free tier. Bursts above the limit return HTTP 429 with Retry-After.
-- tier: pro
-  name: Pro Tier Default
-  scope: api-key
-  metric: requests_per_minute
-  limit: 120
-  burst: 240
-  timeFrame: minute
-  applies:
-  - https://docs.vendure.io/guides/developer-guide/the-api/
-  description: Higher rate envelope for paid plans; reconcile against published commercial terms.
+operatorControls:
+  - name: '@vendure/harden-plugin — apiMode'
+    description: Disable GraphQL introspection on production Shop and Admin APIs.
+    documentation: https://docs.vendure.io/
+  - name: '@vendure/harden-plugin — maxQueryComplexity'
+    description: Bound aggregate GraphQL query complexity to protect the server from expensive queries.
+    documentation: https://docs.vendure.io/
+  - name: '@vendure/harden-plugin — maxQueryDepth'
+    description: Bound GraphQL query nesting depth.
+    documentation: https://docs.vendure.io/
+  - name: 'authOptions.requireVerification'
+    description: Require email verification before NATIVE-auth customers can authenticate.
+    documentation: https://docs.vendure.io/
+  - name: 'apiOptions.cors'
+    description: Restrict origins allowed to call the Shop and Admin APIs.
+    documentation: https://docs.vendure.io/
+limits: []
 recoveryStrategies:
-- name: Exponential Backoff
-  description: Wait Retry-After seconds (or back off exponentially up to 60s) before retrying.
-- name: Queue and Retry
-  description: Submit bulk work in batches under the burst envelope.
+  - name: Exponential Backoff
+    description: >-
+      When an edge/proxy returns 429, wait Retry-After seconds (or back off
+      exponentially up to 60s) before retrying. Vendure itself does not
+      issue 429 responses.
+  - name: Bulk Through Job Queue
+    description: >-
+      For large catalog or order workflows, prefer the Admin API job-queue
+      pattern (e.g. reindex search, bulk imports) over hot inline mutations.
 notes:
-- Replace scaffold values with the provider's published rate limit policy.
+  - >-
+    Vendure Core (`@vendure/core`) does not ship a built-in per-key request
+    rate limiter. Production deployments are expected to terminate
+    untrusted traffic at a reverse proxy / CDN / WAF (Cloudflare, NGINX,
+    Fastly, AWS WAF) that imposes the operator's chosen limits.
+  - >-
+    Use `@vendure/harden-plugin` in production to disable introspection
+    and limit query complexity/depth.
+  - >-
+    Vendure Cloud (design-partner / GA Q4 2026) may impose its own
+    edge-level limits; consult the operator agreement for current values.

@@ -1,0 +1,185 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Vendure Shop API — Products
+  description: >-
+    Vendure Shop API capability for browsing catalogue: products, variants,
+    collections, facets, and search. Backed by the Shop GraphQL endpoint
+    (`POST /shop-api`). Self-contained Naftiko capability covering one
+    Vendure business surface.
+  tags:
+    - Vendure
+    - Shop
+    - Catalog
+    - Products
+    - Search
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      VENDURE_SHOP_API_URL: VENDURE_SHOP_API_URL
+      VENDURE_CHANNEL_TOKEN: VENDURE_CHANNEL_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: shop-products
+      baseUri: '{{env.VENDURE_SHOP_API_URL}}'
+      description: Vendure Shop GraphQL endpoint for catalogue queries.
+      resources:
+        - name: shop-graphql
+          path: /
+          operations:
+            - name: queryProducts
+              method: POST
+              description: Run a `products` query over the Shop API.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  description: GraphQL request with `query`, `variables`, `operationName`.
+                  required: true
+            - name: queryProduct
+              method: POST
+              description: Run a `product` query (by id or slug) over the Shop API.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: queryCollections
+              method: POST
+              description: Run a `collections` query over the Shop API.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: queryCollection
+              method: POST
+              description: Run a `collection` query (by id or slug) over the Shop API.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+            - name: querySearch
+              method: POST
+              description: Run a faceted `search` query over the Shop API.
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  required: true
+      authentication:
+        type: apikey
+        key: vendure-token
+        value: '{{env.VENDURE_CHANNEL_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: shop-products-rest
+      port: 8080
+      description: REST adapter exposing one Spectral-compliant resource per Shop API catalogue operation.
+      resources:
+        - path: /v1/products/query
+          name: products
+          operations:
+            - method: POST
+              name: queryProducts
+              description: Forward a GraphQL request to the Shop API and return products.
+              call: shop-products.queryProducts
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/product/query
+          name: product
+          operations:
+            - method: POST
+              name: queryProduct
+              call: shop-products.queryProduct
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/collections/query
+          name: collections
+          operations:
+            - method: POST
+              name: queryCollections
+              call: shop-products.queryCollections
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/collection/query
+          name: collection
+          operations:
+            - method: POST
+              name: queryCollection
+              call: shop-products.queryCollection
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+        - path: /v1/search/query
+          name: search
+          operations:
+            - method: POST
+              name: querySearch
+              call: shop-products.querySearch
+              with: { body: rest.body }
+              outputParameters: [ { type: object, mapping: $. } ]
+    - type: mcp
+      namespace: shop-products-mcp
+      port: 9090
+      transport: http
+      description: MCP adapter — one tool per consumed Shop API catalogue operation.
+      tools:
+        - name: vendure-shop-list-products
+          description: List products from the Vendure Shop API.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-products.queryProducts
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-get-product
+          description: Get a single product from the Vendure Shop API.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-products.queryProduct
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-list-collections
+          description: List collections from the Vendure Shop API.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-products.queryCollections
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-get-collection
+          description: Get a single collection from the Vendure Shop API.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-products.queryCollection
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]
+        - name: vendure-shop-search
+          description: Run a faceted search against the Vendure Shop API.
+          hints: { readOnly: true, destructive: false, idempotent: true }
+          call: shop-products.querySearch
+          with: { body: tools.body }
+          outputParameters: [ { type: object, mapping: $. } ]

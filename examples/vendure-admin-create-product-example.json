@@ -1,0 +1,35 @@
+{
+  "description": "Example: create a product via the Admin API.",
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:3000/admin-api",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer eyJhbGciOi..."
+    },
+    "body": {
+      "query": "mutation CreateProduct($input: CreateProductInput!) { createProduct(input: $input) { id name slug enabled } }",
+      "variables": {
+        "input": {
+          "enabled": true,
+          "translations": [
+            { "languageCode": "en", "name": "Demo Product", "slug": "demo-product", "description": "<p>A demo product created via the Admin API.</p>" }
+          ]
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "createProduct": {
+          "id": "101",
+          "name": "Demo Product",
+          "slug": "demo-product",
+          "enabled": true
+        }
+      }
+    }
+  }
+}

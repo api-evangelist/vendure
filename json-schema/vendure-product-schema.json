@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vendure/refs/heads/main/json-schema/vendure-product-schema.json",
+  "title": "Vendure Product",
+  "description": "JSON Schema representation of a Vendure Product entity as exposed by the Shop and Admin GraphQL APIs. Derived from the Vendure Core entity model (TypeORM) and GraphQL schema; modelled for governance, validation, and code generation.",
+  "type": "object",
+  "required": ["id", "name", "slug"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Globally unique Product identifier (ID scalar)."
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "languageCode": {
+      "type": "string",
+      "description": "BCP-47 language code for the active translation.",
+      "examples": ["en", "de", "fr"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Localised product name (from the active translation)."
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-safe slug, unique within a Channel and language.",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Localised long description; may contain HTML."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether the product is enabled for the active Channel."
+    },
+    "featuredAsset": { "$ref": "#/$defs/Asset" },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Asset" }
+    },
+    "facetValues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/FacetValue" }
+    },
+    "translations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProductTranslation" }
+    },
+    "optionGroups": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProductOptionGroup" }
+    },
+    "variants": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProductVariant" }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "code": { "type": "string" },
+          "token": { "type": "string" }
+        }
+      }
+    },
+    "customFields": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Plugin-defined custom fields on the Product entity."
+    }
+  },
+  "$defs": {
+    "Asset": {
+      "type": "object",
+      "required": ["id", "source"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["IMAGE", "VIDEO", "BINARY"] },
+        "mimeType": { "type": "string" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "fileSize": { "type": "integer" },
+        "source": { "type": "string", "format": "uri" },
+        "preview": { "type": "string", "format": "uri" }
+      }
+    },
+    "FacetValue": {
+      "type": "object",
+      "required": ["id", "code"],
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "facet": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "code": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        }
+      }
+    },
+    "ProductTranslation": {
+      "type": "object",
+      "required": ["languageCode", "name", "slug"],
+      "properties": {
+        "languageCode": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "ProductOptionGroup": {
+      "type": "object",
+      "required": ["id", "code"],
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProductOption" }
+        }
+      }
+    },
+    "ProductOption": {
+      "type": "object",
+      "required": ["id", "code"],
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "ProductVariant": {
+      "type": "object",
+      "required": ["id", "sku", "name", "price", "priceWithTax", "currencyCode"],
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "sku": { "type": "string" },
+        "name": { "type": "string" },
+        "price": {
+          "type": "integer",
+          "description": "Net price in the smallest currency unit (e.g. cents)."
+        },
+        "priceWithTax": {
+          "type": "integer",
+          "description": "Gross price in the smallest currency unit."
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "ISO 4217 currency code.",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "taxCategoryId": { "type": "string" },
+        "stockLevel": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ProductOption" }
+        }
+      }
+    }
+  }
+}

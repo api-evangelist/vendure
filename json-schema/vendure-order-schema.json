@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/vendure/refs/heads/main/json-schema/vendure-order-schema.json",
+  "title": "Vendure Order",
+  "description": "JSON Schema representation of a Vendure Order entity. Covers the active order (cart) and completed orders across the Shop and Admin GraphQL APIs.",
+  "type": "object",
+  "required": ["id", "code", "state", "currencyCode"],
+  "properties": {
+    "id": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "code": {
+      "type": "string",
+      "description": "Human-readable order code unique within the deployment."
+    },
+    "state": {
+      "type": "string",
+      "description": "Order state. Default state machine states.",
+      "enum": [
+        "Created",
+        "Draft",
+        "AddingItems",
+        "ArrangingPayment",
+        "PaymentAuthorized",
+        "PaymentSettled",
+        "PartiallyShipped",
+        "Shipped",
+        "PartiallyDelivered",
+        "Delivered",
+        "Modifying",
+        "ArrangingAdditionalPayment",
+        "Cancelled"
+      ]
+    },
+    "active": { "type": "boolean" },
+    "type": {
+      "type": "string",
+      "enum": ["Regular", "Seller", "Aggregate"]
+    },
+    "totalQuantity": { "type": "integer", "minimum": 0 },
+    "subTotal": { "type": "integer" },
+    "subTotalWithTax": { "type": "integer" },
+    "shipping": { "type": "integer" },
+    "shippingWithTax": { "type": "integer" },
+    "total": { "type": "integer" },
+    "totalWithTax": { "type": "integer" },
+    "currencyCode": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "customer": { "$ref": "#/$defs/CustomerRef" },
+    "shippingAddress": { "$ref": "#/$defs/OrderAddress" },
+    "billingAddress": { "$ref": "#/$defs/OrderAddress" },
+    "lines": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/OrderLine" }
+    },
+    "shippingLines": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ShippingLine" }
+    },
+    "payments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Payment" }
+    },
+    "fulfillments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Fulfillment" }
+    },
+    "promotions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "couponCode": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    },
+    "couponCodes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "channelId": { "type": "string" },
+    "customFields": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "CustomerRef": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "emailAddress": { "type": "string", "format": "email" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" }
+      }
+    },
+    "OrderAddress": {
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "company": { "type": "string" },
+        "streetLine1": { "type": "string" },
+        "streetLine2": { "type": "string" },
+        "city": { "type": "string" },
+        "province": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "phoneNumber": { "type": "string" }
+      }
+    },
+    "OrderLine": {
+      "type": "object",
+      "required": ["id", "quantity"],
+      "properties": {
+        "id": { "type": "string" },
+        "productVariant": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "sku": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "quantity": { "type": "integer", "minimum": 0 },
+        "unitPrice": { "type": "integer" },
+        "unitPriceWithTax": { "type": "integer" },
+        "linePrice": { "type": "integer" },
+        "linePriceWithTax": { "type": "integer" },
+        "discounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "adjustmentSource": { "type": "string" },
+              "amount": { "type": "integer" },
+              "amountWithTax": { "type": "integer" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "taxLines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "taxRate": { "type": "number" },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "ShippingLine": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "shippingMethod": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "code": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        },
+        "price": { "type": "integer" },
+        "priceWithTax": { "type": "integer" }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "required": ["id", "method", "amount", "state"],
+      "properties": {
+        "id": { "type": "string" },
+        "method": { "type": "string" },
+        "amount": { "type": "integer" },
+        "state": {
+          "type": "string",
+          "enum": ["Created", "Authorized", "Settled", "Declined", "Error", "Cancelled"]
+        },
+        "transactionId": { "type": "string" },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "Fulfillment": {
+      "type": "object",
+      "required": ["id", "method", "state"],
+      "properties": {
+        "id": { "type": "string" },
+        "method": { "type": "string" },
+        "trackingCode": { "type": "string" },
+        "state": {
+          "type": "string",
+          "enum": ["Pending", "Shipped", "Delivered", "Cancelled"]
+        }
+      }
+    }
+  }
+}
