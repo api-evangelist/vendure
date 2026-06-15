@@ -1,0 +1,460 @@
+{
+  "item": [
+    {
+      "id": "cb159ce0-7de3-4b4a-9d73-5ccd8164220a",
+      "name": "Assets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "fabd4be7-9865-44c5-a96c-0c47f8454ccb",
+      "name": "Retrieve Asset",
+      "request": {
+        "name": "Retrieve Asset",
+        "description": {
+          "content": "Serves the stored binary for the asset at `assetPath`. Supports\nimage transforms via query parameters when the asset is an image.\nResponses include `Content-Type`, `Content-Length`, `ETag`, and\ncache headers; ranged requests are supported for large files.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "assets",
+            ":assetPath"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "preset",
+              "value": "<string>",
+              "description": "Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom)."
+            },
+            {
+              "disabled": false,
+              "key": "w",
+              "value": "<integer>",
+              "description": "Target width in pixels."
+            },
+            {
+              "disabled": false,
+              "key": "h",
+              "value": "<integer>",
+              "description": "Target height in pixels."
+            },
+            {
+              "disabled": false,
+              "key": "mode",
+              "value": "<string>",
+              "description": "Fit mode for resizing."
+            },
+            {
+              "disabled": false,
+              "key": "format",
+              "value": "<string>",
+              "description": "Output format override."
+            },
+            {
+              "disabled": false,
+              "key": "q",
+              "value": "<integer>",
+              "description": "Output quality (1-100) for lossy formats."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "assetPath",
+              "description": "(Required) The stored asset path (filename and any storage prefix)."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "image/jpeg"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "1bbf129b-74e7-4429-9e1c-e67b0f82e739",
+          "name": "Asset bytes.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "assets",
+                ":assetPath"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "preset",
+                  "value": "<string>"
+                },
+                {
+                  "key": "w",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "h",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "mode",
+                  "value": "<string>"
+                },
+                {
+                  "key": "format",
+                  "value": "<string>"
+                },
+                {
+                  "key": "q",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetPath",
+                  "description": "(Required) The stored asset path (filename and any storage prefix)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "image/jpeg"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "image/jpeg"
+            }
+          ],
+          "body": "string",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "856d6e5a-cad3-491b-a7e6-793060220a55",
+          "name": "Asset not found.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "assets",
+                ":assetPath"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "preset",
+                  "value": "<string>"
+                },
+                {
+                  "key": "w",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "h",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "mode",
+                  "value": "<string>"
+                },
+                {
+                  "key": "format",
+                  "value": "<string>"
+                },
+                {
+                  "key": "q",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetPath",
+                  "description": "(Required) The stored asset path (filename and any storage prefix)."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    },
+    {
+      "id": "1b401715-aabb-4967-96ff-9ccca8ac5c45",
+      "name": "Preview Asset Transform",
+      "request": {
+        "name": "Preview Asset Transform",
+        "description": {
+          "content": "Returns a transformed preview of an image asset. Identical to the\n`/assets` route but explicitly routed to the preview pipeline; used\nby the Dashboard for thumbnail rendering.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            "assets",
+            "preview",
+            ":assetPath"
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [
+            {
+              "disabled": false,
+              "key": "preset",
+              "value": "<string>",
+              "description": "Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom)."
+            },
+            {
+              "disabled": false,
+              "key": "w",
+              "value": "<integer>",
+              "description": "Target width in pixels."
+            },
+            {
+              "disabled": false,
+              "key": "h",
+              "value": "<integer>",
+              "description": "Target height in pixels."
+            },
+            {
+              "disabled": false,
+              "key": "mode",
+              "value": "<string>",
+              "description": "Fit mode for resizing."
+            },
+            {
+              "disabled": false,
+              "key": "format",
+              "value": "<string>",
+              "description": "Output format override."
+            },
+            {
+              "disabled": false,
+              "key": "q",
+              "value": "<integer>",
+              "description": "Output quality (1-100) for lossy formats."
+            }
+          ],
+          "variable": [
+            {
+              "disabled": false,
+              "type": "any",
+              "value": "<string>",
+              "key": "assetPath",
+              "description": "(Required) The stored asset path (filename and any storage prefix)."
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Accept",
+            "value": "image/jpeg"
+          }
+        ],
+        "method": "GET",
+        "auth": null
+      },
+      "response": [
+        {
+          "id": "7a16fad1-c114-4a18-bba4-52ea58f8f578",
+          "name": "Transformed image bytes.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "assets",
+                "preview",
+                ":assetPath"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "preset",
+                  "value": "<string>"
+                },
+                {
+                  "key": "w",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "h",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "mode",
+                  "value": "<string>"
+                },
+                {
+                  "key": "format",
+                  "value": "<string>"
+                },
+                {
+                  "key": "q",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetPath",
+                  "description": "(Required) The stored asset path (filename and any storage prefix)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "image/jpeg"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "image/jpeg"
+            }
+          ],
+          "body": "string",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "feaecd94-b205-45f7-a0cb-9d13c7c07fd6",
+          "name": "Asset not found.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                "assets",
+                "preview",
+                ":assetPath"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "key": "preset",
+                  "value": "<string>"
+                },
+                {
+                  "key": "w",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "h",
+                  "value": "<integer>"
+                },
+                {
+                  "key": "mode",
+                  "value": "<string>"
+                },
+                {
+                  "key": "format",
+                  "value": "<string>"
+                },
+                {
+                  "key": "q",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "assetPath",
+                  "description": "(Required) The stored asset path (filename and any storage prefix)."
+                }
+              ]
+            },
+            "method": "GET",
+            "body": {}
+          },
+          "status": "Not Found",
+          "code": 404,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:3000",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9d342cc5-7335-4fa4-9acf-321ded32e3c7",
+    "name": "Vendure Asset Server API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST surface exposed by `@vendure/asset-server-plugin`. The Asset Server\nplugin serves binary assets (images, files) uploaded via the Admin API\nand applies on-the-fly image transforms (preset, width, height, mode,\nformat) for use by storefronts and the Vendure Dashboard.\n\nThe plugin mounts at a configurable route (default `/assets`) and\noptionally a `/preview` route for transform previews. Storage can be\nlocal filesystem or an S3-compatible backend.\n\n\nContact Support:\n Name: Vendure",
+      "type": "text/plain"
+    }
+  }
+}

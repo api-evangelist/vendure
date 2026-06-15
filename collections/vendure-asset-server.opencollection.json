@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vendure Asset Server API",
+    "version": "3.6"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Retrieve Asset",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "http://localhost:3000/assets/:assetPath",
+        "params": [
+          {
+            "name": "assetPath",
+            "value": "source/91/demo-product.jpg",
+            "type": "path",
+            "description": "The stored asset path (filename and any storage prefix)."
+          },
+          {
+            "name": "preset",
+            "value": "",
+            "type": "query",
+            "description": "Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom)."
+          },
+          {
+            "name": "w",
+            "value": "",
+            "type": "query",
+            "description": "Target width in pixels."
+          },
+          {
+            "name": "h",
+            "value": "",
+            "type": "query",
+            "description": "Target height in pixels."
+          },
+          {
+            "name": "mode",
+            "value": "",
+            "type": "query",
+            "description": "Fit mode for resizing."
+          },
+          {
+            "name": "format",
+            "value": "",
+            "type": "query",
+            "description": "Output format override."
+          },
+          {
+            "name": "q",
+            "value": "",
+            "type": "query",
+            "description": "Output quality (1-100) for lossy formats."
+          }
+        ]
+      },
+      "docs": "Serves the stored binary for the asset at `assetPath`. Supports\nimage transforms via query parameters when the asset is an image.\nResponses include `Content-Type`, `Content-Length`, `ETag`, and\ncache headers; ranged requests are supported for large files.\n"
+    },
+    {
+      "info": {
+        "name": "Preview Asset Transform",
+        "type": "http"
+      },
+      "http": {
+        "method": "GET",
+        "url": "http://localhost:3000/assets/preview/:assetPath",
+        "params": [
+          {
+            "name": "assetPath",
+            "value": "source/91/demo-product.jpg",
+            "type": "path",
+            "description": "The stored asset path (filename and any storage prefix)."
+          },
+          {
+            "name": "preset",
+            "value": "",
+            "type": "query",
+            "description": "Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom)."
+          },
+          {
+            "name": "w",
+            "value": "",
+            "type": "query",
+            "description": "Target width in pixels."
+          },
+          {
+            "name": "h",
+            "value": "",
+            "type": "query",
+            "description": "Target height in pixels."
+          },
+          {
+            "name": "mode",
+            "value": "",
+            "type": "query",
+            "description": "Fit mode for resizing."
+          },
+          {
+            "name": "format",
+            "value": "",
+            "type": "query",
+            "description": "Output format override."
+          },
+          {
+            "name": "q",
+            "value": "",
+            "type": "query",
+            "description": "Output quality (1-100) for lossy formats."
+          }
+        ]
+      },
+      "docs": "Returns a transformed preview of an image asset. Identical to the\n`/assets` route but explicitly routed to the preview pipeline; used\nby the Dashboard for thumbnail rendering.\n"
+    }
+  ],
+  "bundled": true
+}

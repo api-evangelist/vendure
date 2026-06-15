@@ -1,0 +1,335 @@
+{
+  "item": [
+    {
+      "id": "d1d64947-d172-4551-ae7d-3932c6785f34",
+      "name": "Catalog",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "edb071e4-40f1-475c-9901-7173fc9e19c4",
+      "name": "Orders",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "a309a5ce-0e24-4e48-9a37-bf48f5365784",
+      "name": "Customers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "958b8f60-5d1a-409b-af45-60cae8b98c7d",
+      "name": "Channels",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "7d3f5b3e-27ea-4125-b9e1-3a2817b608e5",
+      "name": "Promotions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "84df24b0-ad53-4fb3-b5f0-aff9d8b3468d",
+      "name": "Settings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "b5046568-280e-4d7f-a6b8-97d4d1d9bac0",
+      "name": "Jobs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "4f8a1dab-5419-40ef-a1a3-ac0b987323f0",
+      "name": "Execute Admin API GraphQL Operation",
+      "request": {
+        "name": "Execute Admin API GraphQL Operation",
+        "description": {
+          "content": "Executes a GraphQL query, mutation, or named operation against the\nAdmin API. The caller must be authenticated as an administrator\nwhose role grants the relevant permission(s).\n\nPermissions checked include: `CreateCatalog`, `ReadCatalog`,\n`UpdateCatalog`, `DeleteCatalog`, `CreateOrder`, `ReadOrder`,\n`UpdateOrder`, `DeleteOrder`, `CreateCustomer`, `ReadCustomer`,\n`UpdateCustomer`, `DeleteCustomer`, `CreatePromotion`,\n`ReadPromotion`, `UpdatePromotion`, `DeletePromotion`,\n`CreateAdministrator`, `ReadAdministrator`, `UpdateAdministrator`,\n`DeleteAdministrator`, `CreateSettings`, `ReadSettings`,\n`UpdateSettings`, `DeleteSettings`.\n\nCommon operations:\n  - Queries: `products`, `product`, `productVariants`,\n    `productVariant`, `collections`, `collection`, `orders`,\n    `order`, `customers`, `customer`, `customerGroups`, `channels`,\n    `promotions`, `promotionConditions`, `promotionActions`,\n    `taxCategories`, `taxRates`, `zones`, `countries`,\n    `administrators`, `roles`, `paymentMethods`, `shippingMethods`,\n    `jobs`, `scheduledTasks`, `globalSettings`, `apiKeys`,\n    `stockLocations`, `assets`, `facets`, `sellers`.\n  - Mutations: `createProduct`, `updateProduct`, `deleteProduct`,\n    `addOptionGroupToProduct`, `createProductVariants`,\n    `updateProductVariants`, `assignProductsToChannel`,\n    `setOrderShippingAddress`, `addManualPaymentToOrder`,\n    `transitionOrderToState`, `cancelOrder`, `refundOrder`,\n    `createCustomer`, `createPromotion`, `updatePromotion`,\n    `createChannel`, `createTaxRate`, `createZone`,\n    `createPaymentMethod`, `createShippingMethod`,\n    `createAdministrator`, `createRole`, `cancelJob`,\n    `updateGlobalSettings`, `createApiKey`.\n",
+          "type": "text/plain"
+        },
+        "url": {
+          "path": [
+            ""
+          ],
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "header": [
+          {
+            "disabled": false,
+            "description": "Channel token selecting the active Channel for the request.",
+            "key": "vendure-token",
+            "value": "<string>"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "method": "POST",
+        "auth": null,
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": 9853\n  },\n  \"operationName\": \"<string>\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "id": "3794138e-c320-4510-a7e5-5dbfedff6743",
+          "name": "GraphQL response (may contain `data` and/or `errors`).",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Bearer token issued by the Admin `login` mutation, or session cookie\nequivalent. Header name and scheme are configurable via\n`authOptions.tokenMethod`.\n",
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOi..."
+              },
+              {
+                "disabled": false,
+                "description": "Channel token selecting the active Channel for the request.",
+                "key": "vendure-token",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query Orders($options: OrderListOptions) {\\n  orders(options: $options) {\\n    items { id code state totalWithTax customer { emailAddress } }\\n    totalItems\\n  }\\n}\\n\",\n  \"variables\": {\n    \"options\": {\n      \"take\": 25,\n      \"sort\": {\n        \"createdAt\": \"DESC\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"data\": {\n    \"key_0\": false,\n    \"key_1\": 4787\n  },\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"extensions\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      }\n    },\n    {\n      \"message\": \"string\",\n      \"path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"extensions\": {\n        \"key_0\": 7979,\n        \"key_1\": 8731.965727087456\n      }\n    }\n  ]\n}",
+          "cookie": [],
+          "_postman_previewlanguage": "json"
+        },
+        {
+          "id": "3d9f249d-d06e-4236-a855-3db42d708a73",
+          "name": "Unauthorized — missing or invalid credentials.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Bearer token issued by the Admin `login` mutation, or session cookie\nequivalent. Header name and scheme are configurable via\n`authOptions.tokenMethod`.\n",
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOi..."
+              },
+              {
+                "disabled": false,
+                "description": "Channel token selecting the active Channel for the request.",
+                "key": "vendure-token",
+                "value": "<string>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query Orders($options: OrderListOptions) {\\n  orders(options: $options) {\\n    items { id code state totalWithTax customer { emailAddress } }\\n    totalItems\\n  }\\n}\\n\",\n  \"variables\": {\n    \"options\": {\n      \"take\": 25,\n      \"sort\": {\n        \"createdAt\": \"DESC\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        },
+        {
+          "id": "e7394936-58e9-4eeb-a989-00fa3b69c878",
+          "name": "Forbidden — administrator lacks required permission.",
+          "originalRequest": {
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "description": {
+                  "content": "Added as a part of security scheme: bearer",
+                  "type": "text/plain"
+                },
+                "key": "Authorization",
+                "value": "Bearer <token>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Bearer token issued by the Admin `login` mutation, or session cookie\nequivalent. Header name and scheme are configurable via\n`authOptions.tokenMethod`.\n",
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOi..."
+              },
+              {
+                "disabled": false,
+                "description": "Channel token selecting the active Channel for the request.",
+                "key": "vendure-token",
+                "value": "<string>"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query Orders($options: OrderListOptions) {\\n  orders(options: $options) {\\n    items { id code state totalWithTax customer { emailAddress } }\\n    totalItems\\n  }\\n}\\n\",\n  \"variables\": {\n    \"options\": {\n      \"take\": 25,\n      \"sort\": {\n        \"createdAt\": \"DESC\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Forbidden",
+          "code": 403,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "text/plain"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "_postman_previewlanguage": "text"
+        }
+      ],
+      "event": [],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:3000/admin-api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d3b1b267-0991-457e-82fa-ed6e7f5f5cb2",
+    "name": "Vendure Admin API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Vendure Admin API is the privileged GraphQL endpoint used by the\nVendure Dashboard and back-office tooling. It governs catalogue (products,\nvariants, options, collections, facets), orders and fulfillment,\ncustomers and customer groups, channels and sellers, promotions, tax\ncategories and rates, zones and countries, payment and shipping methods,\nadministrators and roles, API keys, jobs and scheduled tasks, stock\nlocations, assets, and global settings.\n\nThis OpenAPI document models the single GraphQL endpoint\n(`POST /admin-api`); per-operation contracts are defined by the GraphQL\nschema. See the reference documentation for query and mutation lists.\n\n\nContact Support:\n Name: Vendure",
+      "type": "text/plain"
+    }
+  }
+}

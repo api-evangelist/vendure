@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vendure Shop API",
+    "version": "3.6"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Execute Shop API GraphQL Operation",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "http://localhost:3000/shop-api/",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "vendure-token",
+            "value": ""
+          }
+        ],
+        "params": [
+          {
+            "name": "languageCode",
+            "value": "",
+            "type": "query",
+            "description": "BCP-47 language code controlling translated content."
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Executes a GraphQL query, mutation, or named operation against the\nShop API. Supports anonymous sessions, customer-authenticated\nsessions, and channel-scoped requests.\n\nCommon operations:\n  - Queries: `product`, `products`, `collection`, `collections`,\n    `search`, `activeOrder`, `activeCustomer`, `me`, `order`,\n    `orderByCode`, `eligibleShippingMethods`,\n    `eligiblePaymentMethods`, `availableCountries`, `activeChannel`,\n    `nextOrderStates`.\n  - Mutations: `addItemToOrder`, `adjustOrderLi"
+    }
+  ],
+  "bundled": true
+}

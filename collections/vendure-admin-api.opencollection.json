@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vendure Admin API",
+    "version": "3.6"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Execute Admin API GraphQL Operation",
+        "type": "http"
+      },
+      "http": {
+        "method": "POST",
+        "url": "http://localhost:3000/admin-api/",
+        "headers": [
+          {
+            "name": "Authorization",
+            "value": ""
+          },
+          {
+            "name": "vendure-token",
+            "value": ""
+          }
+        ],
+        "body": {
+          "type": "json",
+          "data": "{}"
+        }
+      },
+      "docs": "Executes a GraphQL query, mutation, or named operation against the\nAdmin API. The caller must be authenticated as an administrator\nwhose role grants the relevant permission(s).\n\nPermissions checked include: `CreateCatalog`, `ReadCatalog`,\n`UpdateCatalog`, `DeleteCatalog`, `CreateOrder`, `ReadOrder`,\n`UpdateOrder`, `DeleteOrder`, `CreateCustomer`, `ReadCustomer`,\n`UpdateCustomer`, `DeleteCustomer`, `CreatePromotion`,\n`ReadPromotion`, `UpdatePromotion`, `DeletePromotion`,\n`CreateAdministrator`, `R"
+    }
+  ],
+  "bundled": true
+}
