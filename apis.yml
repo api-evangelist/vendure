@@ -9,7 +9,7 @@ description: >-
   system that extends data, services, jobs, and resolvers. The project is GPLv3-licensed Vendure Core, complemented by a
   commercial Vendure Platform layer of 20+ enterprise plugins, a managed Vendure Cloud offering, an official MCP server,
   and a starter ecosystem (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Commerce
 - Headless Commerce
