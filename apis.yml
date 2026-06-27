@@ -426,7 +426,7 @@ common:
   url: https://vendure.io/hub
 - type: LinkedIn
   url: https://www.linkedin.com/company/vendure
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.vendure.io/llms.txt
 - type: MCP
   url: https://docs.vendure.io/mcp
