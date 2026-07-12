@@ -1,0 +1,32 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/vendure-admin-api-openapi.yml, openapi/vendure-shop-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - cookie
+  - header
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/vendure-admin-api-openapi.yml
+  - openapi/vendure-shop-api-openapi.yml
+- name: CookieAuth
+  type: apiKey
+  in: cookie
+  parameter: session
+  sources:
+  - openapi/vendure-admin-api-openapi.yml
+  - openapi/vendure-shop-api-openapi.yml
+- name: ChannelToken
+  type: apiKey
+  in: header
+  parameter: vendure-token
+  sources:
+  - openapi/vendure-admin-api-openapi.yml
+  - openapi/vendure-shop-api-openapi.yml

@@ -408,6 +408,10 @@ tools:
   - type: Repository
     url: https://github.com/vendurehq/mcp
 common:
+- type: DomainSecurity
+  url: security/vendure-domain-security.yml
+- type: Authentication
+  url: authentication/vendure-authentication.yml
 - type: Website
   url: https://vendure.io/
 - type: Documentation
@@ -444,6 +448,8 @@ common:
   url: vocabulary/vendure-vocabulary.yml
 - type: Rules
   url: rules/vendure-rules.yml
+- type: Blog
+  url: https://www.vendure.io/blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
