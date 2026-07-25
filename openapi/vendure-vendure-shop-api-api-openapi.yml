@@ -1,0 +1,175 @@
+openapi: 3.1.0
+info:
+  title: Vendure Admin Assets Vendure Shop API API
+  version: '3.6'
+  description: 'The Vendure Admin API is the privileged GraphQL endpoint used by the
+
+    Vendure Dashboard and back-office tooling. It governs catalogue (products,
+
+    variants, options, collections, facets), orders and fulfillment,
+
+    customers and customer groups, channels and sellers, promotions, tax
+
+    categories and rates, zones and countries, payment and shipping methods,
+
+    administrators and roles, API keys, jobs and scheduled tasks, stock
+
+    locations, assets, and global settings.
+
+
+    This OpenAPI document models the single GraphQL endpoint
+
+    (`POST /admin-api`); per-operation contracts are defined by the GraphQL
+
+    schema. See the reference documentation for query and mutation lists.
+
+    '
+  contact:
+    name: Vendure
+    url: https://docs.vendure.io/reference/graphql-api/admin/queries/
+  license:
+    name: GPL-3.0
+    url: https://github.com/vendurehq/vendure/blob/master/LICENSE
+servers:
+- url: http://localhost:3000/admin-api
+  description: Default development server
+- url: https://{host}/admin-api
+  description: Self-hosted production server
+  variables:
+    host:
+      default: admin.example.com
+security:
+- BearerAuth: []
+  ChannelToken: []
+- CookieAuth: []
+  ChannelToken: []
+tags:
+- name: Vendure Shop API
+paths:
+  /:
+    post:
+      summary: Execute Shop API GraphQL Operation
+      operationId: executeShopGraphQL
+      description: "Executes a GraphQL query, mutation, or named operation against the\nShop API. Supports anonymous sessions, customer-authenticated\nsessions, and channel-scoped requests.\n\nCommon operations:\n  - Queries: `product`, `products`, `collection`, `collections`,\n    `search`, `activeOrder`, `activeCustomer`, `me`, `order`,\n    `orderByCode`, `eligibleShippingMethods`,\n    `eligiblePaymentMethods`, `availableCountries`, `activeChannel`,\n    `nextOrderStates`.\n  - Mutations: `addItemToOrder`, `adjustOrderLine`,\n    `removeOrderLine`, `setOrderShippingAddress`,\n    `setOrderBillingAddress`, `setOrderShippingMethod`,\n    `transitionOrderToState`, `addPaymentToOrder`,\n    `setCustomerForOrder`, `registerCustomerAccount`, `login`,\n    `logout`, `requestPasswordReset`, `resetPassword`,\n    `updateCustomer`, `createCustomerAddress`,\n    `updateCustomerAddress`.\n"
+      parameters:
+      - $ref: '#/components/parameters/AuthTokenHeader'
+      - $ref: '#/components/parameters/ChannelTokenHeader'
+      - $ref: '#/components/parameters/LanguageCodeQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              activeOrder:
+                summary: Query the active order
+                value:
+                  query: "query ActiveOrder {\n  activeOrder {\n    id\n    code\n    state\n    totalWithTax\n    lines { productVariant { name } quantity }\n  }\n}\n"
+              addItemToOrder:
+                summary: Add an item to the active order
+                value:
+                  query: "mutation AddItem($variantId: ID!, $quantity: Int!) {\n  addItemToOrder(productVariantId: $variantId, quantity: $quantity) {\n    ... on Order { id totalQuantity totalWithTax }\n    ... on ErrorResult { errorCode message }\n  }\n}\n"
+                  variables:
+                    variantId: '42'
+                    quantity: 1
+      responses:
+        '200':
+          description: GraphQL response (may contain `data` and/or `errors`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '400':
+          description: Malformed GraphQL request.
+        '401':
+          description: Unauthorized — missing or invalid auth token.
+      tags:
+      - Vendure Shop API
+components:
+  schemas:
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+          description: The GraphQL document.
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              path:
+                type: array
+                items:
+                  oneOf:
+                  - type: string
+                  - type: integer
+              extensions:
+                type: object
+                additionalProperties: true
+  parameters:
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: 'Channel token selecting the Vendure Channel for this request. Maps
+
+        to the channel `token` field. If omitted, the default channel is
+
+        used. Header name is configurable via `apiOptions.channelTokenKey`.
+
+        '
+      schema:
+        type: string
+    AuthTokenHeader:
+      name: Authorization
+      in: header
+      required: false
+      description: 'Bearer token issued by a `login` mutation when the server is
+
+        configured with bearer-token auth. When using cookie auth, omit and
+
+        rely on the session cookie.
+
+        '
+      schema:
+        type: string
+        example: Bearer eyJhbGciOi...
+    LanguageCodeQuery:
+      name: languageCode
+      in: query
+      required: false
+      description: BCP-47 language code controlling translated content.
+      schema:
+        type: string
+        example: en
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+    ChannelToken:
+      type: apiKey
+      in: header
+      name: vendure-token

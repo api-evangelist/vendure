@@ -1,0 +1,168 @@
+openapi: 3.1.0
+info:
+  title: Vendure Admin Assets Vendure Admin API API
+  version: '3.6'
+  description: 'The Vendure Admin API is the privileged GraphQL endpoint used by the
+
+    Vendure Dashboard and back-office tooling. It governs catalogue (products,
+
+    variants, options, collections, facets), orders and fulfillment,
+
+    customers and customer groups, channels and sellers, promotions, tax
+
+    categories and rates, zones and countries, payment and shipping methods,
+
+    administrators and roles, API keys, jobs and scheduled tasks, stock
+
+    locations, assets, and global settings.
+
+
+    This OpenAPI document models the single GraphQL endpoint
+
+    (`POST /admin-api`); per-operation contracts are defined by the GraphQL
+
+    schema. See the reference documentation for query and mutation lists.
+
+    '
+  contact:
+    name: Vendure
+    url: https://docs.vendure.io/reference/graphql-api/admin/queries/
+  license:
+    name: GPL-3.0
+    url: https://github.com/vendurehq/vendure/blob/master/LICENSE
+servers:
+- url: http://localhost:3000/admin-api
+  description: Default development server
+- url: https://{host}/admin-api
+  description: Self-hosted production server
+  variables:
+    host:
+      default: admin.example.com
+security:
+- BearerAuth: []
+  ChannelToken: []
+- CookieAuth: []
+  ChannelToken: []
+tags:
+- name: Vendure Admin API
+paths:
+  /:
+    post:
+      summary: Execute Admin API GraphQL Operation
+      operationId: executeAdminGraphQL
+      description: "Executes a GraphQL query, mutation, or named operation against the\nAdmin API. The caller must be authenticated as an administrator\nwhose role grants the relevant permission(s).\n\nPermissions checked include: `CreateCatalog`, `ReadCatalog`,\n`UpdateCatalog`, `DeleteCatalog`, `CreateOrder`, `ReadOrder`,\n`UpdateOrder`, `DeleteOrder`, `CreateCustomer`, `ReadCustomer`,\n`UpdateCustomer`, `DeleteCustomer`, `CreatePromotion`,\n`ReadPromotion`, `UpdatePromotion`, `DeletePromotion`,\n`CreateAdministrator`, `ReadAdministrator`, `UpdateAdministrator`,\n`DeleteAdministrator`, `CreateSettings`, `ReadSettings`,\n`UpdateSettings`, `DeleteSettings`.\n\nCommon operations:\n  - Queries: `products`, `product`, `productVariants`,\n    `productVariant`, `collections`, `collection`, `orders`,\n    `order`, `customers`, `customer`, `customerGroups`, `channels`,\n    `promotions`, `promotionConditions`, `promotionActions`,\n    `taxCategories`, `taxRates`, `zones`, `countries`,\n    `administrators`, `roles`, `paymentMethods`, `shippingMethods`,\n    `jobs`, `scheduledTasks`, `globalSettings`, `apiKeys`,\n    `stockLocations`, `assets`, `facets`, `sellers`.\n  - Mutations: `createProduct`, `updateProduct`, `deleteProduct`,\n    `addOptionGroupToProduct`, `createProductVariants`,\n    `updateProductVariants`, `assignProductsToChannel`,\n    `setOrderShippingAddress`, `addManualPaymentToOrder`,\n    `transitionOrderToState`, `cancelOrder`, `refundOrder`,\n    `createCustomer`, `createPromotion`, `updatePromotion`,\n    `createChannel`, `createTaxRate`, `createZone`,\n    `createPaymentMethod`, `createShippingMethod`,\n    `createAdministrator`, `createRole`, `cancelJob`,\n    `updateGlobalSettings`, `createApiKey`.\n"
+      parameters:
+      - $ref: '#/components/parameters/AuthTokenHeader'
+      - $ref: '#/components/parameters/ChannelTokenHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              listOrders:
+                summary: List recent orders
+                value:
+                  query: "query Orders($options: OrderListOptions) {\n  orders(options: $options) {\n    items { id code state totalWithTax customer { emailAddress } }\n    totalItems\n  }\n}\n"
+                  variables:
+                    options:
+                      take: 25
+                      sort:
+                        createdAt: DESC
+              createProduct:
+                summary: Create a product
+                value:
+                  query: "mutation CreateProduct($input: CreateProductInput!) {\n  createProduct(input: $input) { id name slug }\n}\n"
+                  variables:
+                    input:
+                      translations:
+                      - languageCode: en
+                        name: Demo
+                        slug: demo
+                        description: Demo product
+      responses:
+        '200':
+          description: GraphQL response (may contain `data` and/or `errors`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '401':
+          description: Unauthorized — missing or invalid credentials.
+        '403':
+          description: Forbidden — administrator lacks required permission.
+      tags:
+      - Vendure Admin API
+components:
+  parameters:
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: Channel token selecting the active Channel for the request.
+      schema:
+        type: string
+    AuthTokenHeader:
+      name: Authorization
+      in: header
+      required: true
+      description: 'Bearer token issued by the Admin `login` mutation, or session cookie
+
+        equivalent. Header name and scheme are configurable via
+
+        `authOptions.tokenMethod`.
+
+        '
+      schema:
+        type: string
+        example: Bearer eyJhbGciOi...
+  schemas:
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              path:
+                type: array
+                items:
+                  oneOf:
+                  - type: string
+                  - type: integer
+              extensions:
+                type: object
+                additionalProperties: true
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+    ChannelToken:
+      type: apiKey
+      in: header
+      name: vendure-token
