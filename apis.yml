@@ -9,7 +9,20 @@ description: >-
   system that extends data, services, jobs, and resolvers. The project is GPLv3-licensed Vendure Core, complemented by a
   commercial Vendure Platform layer of 20+ enterprise plugins, a managed Vendure Cloud offering, an official MCP server,
   and a starter ecosystem (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: enterprise
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Enterprise · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vendure.png
 tags:
 - Commerce
 - Headless Commerce
@@ -26,77 +39,78 @@ created: '2026-05-23'
 modified: '2026-05-25'
 specificationVersion: '0.20'
 apis:
-- aid: vendure:shop-api
-  name: Vendure Shop GraphQL API
-  description: >-
-    Public GraphQL API consumed by storefronts and end-customer clients — product and collection browse, faceted
-    search, active order / cart, checkout, eligible shipping and payment methods, customer registration, account and
-    address management, and order lookup. Mounted by default at /shop-api on the Vendure server.
+- aid: vendure:vendure-assets-api
+  name: Vendure Assets API
+  description: The Assets API from Vendure — 2 operation(s) for assets.
   humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
   baseURL: http://localhost:3000/shop-api
   tags:
-  - GraphQL
-  - Storefront
-  - Shop
-  - Cart
-  - Checkout
-  - Customer
+  - Assets
   properties:
+  - type: OpenAPI
+    url: openapi/vendure-assets-api-openapi.yml
   - type: Documentation
     url: https://docs.vendure.io/reference/graphql-api/shop/queries/
-  - type: OpenAPI
-    url: openapi/vendure-shop-api-openapi.yml
   - type: JSONSchema
     url: json-schema/vendure-product-schema.json
   - type: JSONSchema
     url: json-schema/vendure-order-schema.json
-  - url: graphql/vendure-graphql.md
-    type: GraphQL
-- aid: vendure:admin-api
-  name: Vendure Admin GraphQL API
-  description: >-
-    Privileged GraphQL API consumed by the Vendure Dashboard and back-office tooling — catalogue, channels, orders,
-    customers, customer groups, fulfillment, promotions, tax categories and rates, zones and countries, sellers, stock
-    locations, payment methods, shipping methods, administrators, roles, API keys, jobs and scheduled tasks, and
-    global settings. Mounted by default at /admin-api on the Vendure server.
-  humanURL: https://docs.vendure.io/reference/graphql-api/admin/queries/
-  baseURL: http://localhost:3000/admin-api
-  tags:
-  - GraphQL
-  - Admin
-  - Back-Office
-  - Catalog
-  - Orders
-  - Customers
-  properties:
+  - type: GraphQL
+    url: graphql/vendure-graphql.md
   - type: Documentation
     url: https://docs.vendure.io/reference/graphql-api/admin/queries/
+  - type: JSONSchema
+    url: json-schema/vendure-customer-schema.json
+  - type: Documentation
+    url: https://docs.vendure.io/
+- aid: vendure:vendure-vendure-admin-api-api
+  name: Vendure Vendure Admin API API
+  description: The Vendure Admin API API from Vendure — 1 operation(s) for vendure admin api.
+  humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  baseURL: http://localhost:3000/shop-api
+  tags:
+  - Vendure Admin API
+  properties:
   - type: OpenAPI
-    url: openapi/vendure-admin-api-openapi.yml
+    url: openapi/vendure-vendure-admin-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.vendure.io/reference/graphql-api/shop/queries/
   - type: JSONSchema
     url: json-schema/vendure-product-schema.json
   - type: JSONSchema
     url: json-schema/vendure-order-schema.json
+  - type: GraphQL
+    url: graphql/vendure-graphql.md
+  - type: Documentation
+    url: https://docs.vendure.io/reference/graphql-api/admin/queries/
   - type: JSONSchema
     url: json-schema/vendure-customer-schema.json
-- aid: vendure:asset-server
-  name: Vendure Asset Server REST API
-  description: >-
-    REST surface exposed by the AssetServerPlugin. Serves images and binary assets uploaded through the Admin API;
-    supports preview transforms via query parameters (preset, w, h, mode, format) and acts as the storage backend for
-    product, collection, and rich-text assets.
-  humanURL: https://docs.vendure.io/
-  baseURL: http://localhost:3000/assets
-  tags:
-  - REST
-  - Assets
-  - Images
-  - Storage
-  properties:
   - type: Documentation
     url: https://docs.vendure.io/
+- aid: vendure:vendure-vendure-shop-api-api
+  name: Vendure Vendure Shop API API
+  description: The Vendure Shop API API from Vendure — 1 operation(s) for vendure shop api.
+  humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  baseURL: http://localhost:3000/shop-api
+  tags:
+  - Vendure Shop API
+  properties:
   - type: OpenAPI
-    url: openapi/vendure-asset-server-openapi.yml
+    url: openapi/vendure-vendure-shop-api-api-openapi.yml
+  - type: Documentation
+    url: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  - type: JSONSchema
+    url: json-schema/vendure-product-schema.json
+  - type: JSONSchema
+    url: json-schema/vendure-order-schema.json
+  - type: GraphQL
+    url: graphql/vendure-graphql.md
+  - type: Documentation
+    url: https://docs.vendure.io/reference/graphql-api/admin/queries/
+  - type: JSONSchema
+    url: json-schema/vendure-customer-schema.json
+  - type: Documentation
+    url: https://docs.vendure.io/
 tools:
 - aid: vendure:core
   name: '@vendure/core'
