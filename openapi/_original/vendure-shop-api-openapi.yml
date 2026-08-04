@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: Vendure Shop API
+  version: '3.6'
+  description: |
+    The Vendure Shop API is a GraphQL endpoint exposed by a Vendure server for
+    storefront and end-customer clients. It serves product browse, faceted
+    search, the active order (cart), checkout, eligible shipping and payment
+    methods, customer registration and account management, and order lookup.
+
+    This OpenAPI document models the single GraphQL endpoint (`POST
+    /shop-api`) so the surface can be governed, monitored, and orchestrated
+    alongside REST APIs. Operation-level detail (queries and mutations)
+    lives in the GraphQL schema itself; see the reference documentation.
+  contact:
+    name: Vendure
+    url: https://docs.vendure.io/reference/graphql-api/shop/queries/
+  license:
+    name: GPL-3.0
+    url: https://github.com/vendurehq/vendure/blob/master/LICENSE
+servers:
+  - url: http://localhost:3000/shop-api
+    description: Default development server
+  - url: https://{host}/shop-api
+    description: Self-hosted production server
+    variables:
+      host:
+        default: shop.example.com
+paths:
+  /:
+    post:
+      summary: Execute Shop API GraphQL Operation
+      operationId: executeShopGraphQL
+      description: |
+        Executes a GraphQL query, mutation, or named operation against the
+        Shop API. Supports anonymous sessions, customer-authenticated
+        sessions, and channel-scoped requests.
+
+        Common operations:
+          - Queries: `product`, `products`, `collection`, `collections`,
+            `search`, `activeOrder`, `activeCustomer`, `me`, `order`,
+            `orderByCode`, `eligibleShippingMethods`,
+            `eligiblePaymentMethods`, `availableCountries`, `activeChannel`,
+            `nextOrderStates`.
+          - Mutations: `addItemToOrder`, `adjustOrderLine`,
+            `removeOrderLine`, `setOrderShippingAddress`,
+            `setOrderBillingAddress`, `setOrderShippingMethod`,
+            `transitionOrderToState`, `addPaymentToOrder`,
+            `setCustomerForOrder`, `registerCustomerAccount`, `login`,
+            `logout`, `requestPasswordReset`, `resetPassword`,
+            `updateCustomer`, `createCustomerAddress`,
+            `updateCustomerAddress`.
+      parameters:
+        - $ref: '#/components/parameters/AuthTokenHeader'
+        - $ref: '#/components/parameters/ChannelTokenHeader'
+        - $ref: '#/components/parameters/LanguageCodeQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              activeOrder:
+                summary: Query the active order
+                value:
+                  query: |
+                    query ActiveOrder {
+                      activeOrder {
+                        id
+                        code
+                        state
+                        totalWithTax
+                        lines { productVariant { name } quantity }
+                      }
+                    }
+              addItemToOrder:
+                summary: Add an item to the active order
+                value:
+                  query: |
+                    mutation AddItem($variantId: ID!, $quantity: Int!) {
+                      addItemToOrder(productVariantId: $variantId, quantity: $quantity) {
+                        ... on Order { id totalQuantity totalWithTax }
+                        ... on ErrorResult { errorCode message }
+                      }
+                    }
+                  variables:
+                    variantId: '42'
+                    quantity: 1
+      responses:
+        '200':
+          description: GraphQL response (may contain `data` and/or `errors`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '400':
+          description: Malformed GraphQL request.
+        '401':
+          description: Unauthorized — missing or invalid auth token.
+components:
+  parameters:
+    AuthTokenHeader:
+      name: Authorization
+      in: header
+      required: false
+      description: |
+        Bearer token issued by a `login` mutation when the server is
+        configured with bearer-token auth. When using cookie auth, omit and
+        rely on the session cookie.
+      schema:
+        type: string
+        example: Bearer eyJhbGciOi...
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: |
+        Channel token selecting the Vendure Channel for this request. Maps
+        to the channel `token` field. If omitted, the default channel is
+        used. Header name is configurable via `apiOptions.channelTokenKey`.
+      schema:
+        type: string
+    LanguageCodeQuery:
+      name: languageCode
+      in: query
+      required: false
+      description: BCP-47 language code controlling translated content.
+      schema:
+        type: string
+        example: en
+  schemas:
+    GraphQLRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          description: The GraphQL document.
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message: { type: string }
+              path:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                    - type: integer
+              extensions:
+                type: object
+                additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+    ChannelToken:
+      type: apiKey
+      in: header
+      name: vendure-token
+security:
+  - BearerAuth: []
+    ChannelToken: []
+  - CookieAuth: []
+    ChannelToken: []
+tags:
+  - name: Catalog
+  - name: Cart
+  - name: Checkout
+  - name: Customer
+  - name: Search

@@ -1,0 +1,18 @@
+{
+  "provider": "vendure",
+  "sources": [
+    "vendure-assets-api-openapi.yml",
+    "vendure-vendure-admin-api-api-openapi.yml",
+    "vendure-vendure-shop-api-api-openapi.yml"
+  ],
+  "outputs": [
+    "vendure-assets-api-openapi.yml",
+    "vendure-vendure-admin-api-api-openapi.yml",
+    "vendure-vendure-shop-api-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
