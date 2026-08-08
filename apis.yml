@@ -448,7 +448,7 @@ common:
   url: https://www.linkedin.com/company/vendure
 - type: LlmsText
   url: https://docs.vendure.io/llms.txt
-- type: MCP
+- type: Documentation
   url: https://docs.vendure.io/mcp
 - type: License
   url: https://github.com/vendurehq/vendure/blob/master/LICENSE
