@@ -1,0 +1,298 @@
+{
+  "item": [
+    {
+      "id": "e2fa0acf-1ef2-4d76-a7d9-80719a0a3e17",
+      "name": "Vendure Shop API",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e638ea77-77c0-4dd4-80f3-72181abb1b30",
+          "name": "Execute Shop API GraphQL Operation",
+          "request": {
+            "name": "Execute Shop API GraphQL Operation",
+            "description": {
+              "content": "Executes a GraphQL query, mutation, or named operation against the\nShop API. Supports anonymous sessions, customer-authenticated\nsessions, and channel-scoped requests.\n\nCommon operations:\n  - Queries: `product`, `products`, `collection`, `collections`,\n    `search`, `activeOrder`, `activeCustomer`, `me`, `order`,\n    `orderByCode`, `eligibleShippingMethods`,\n    `eligiblePaymentMethods`, `availableCountries`, `activeChannel`,\n    `nextOrderStates`.\n  - Mutations: `addItemToOrder`, `adjustOrderLine`,\n    `removeOrderLine`, `setOrderShippingAddress`,\n    `setOrderBillingAddress`, `setOrderShippingMethod`,\n    `transitionOrderToState`, `addPaymentToOrder`,\n    `setCustomerForOrder`, `registerCustomerAccount`, `login`,\n    `logout`, `requestPasswordReset`, `resetPassword`,\n    `updateCustomer`, `createCustomerAddress`,\n    `updateCustomerAddress`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "languageCode",
+                  "value": "<string>",
+                  "description": "BCP-47 language code controlling translated content."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Channel token selecting the Vendure Channel for this request. Maps\nto the channel `token` field. If omitted, the default channel is\nused. Header name is configurable via `apiOptions.channelTokenKey`.\n",
+                "key": "vendure-token",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": 2391.2157938152254,\n    \"key_1\": \"string\"\n  },\n  \"operationName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2d6f594b-bca5-4c2b-8675-a13367c9b76b",
+              "name": "GraphQL response (may contain `data` and/or `errors`).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "languageCode",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Bearer token issued by a `login` mutation when the server is\nconfigured with bearer-token auth. When using cookie auth, omit and\nrely on the session cookie.\n",
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOi..."
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Channel token selecting the Vendure Channel for this request. Maps\nto the channel `token` field. If omitted, the default channel is\nused. Header name is configurable via `apiOptions.channelTokenKey`.\n",
+                    "key": "vendure-token",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query ActiveOrder {\\n  activeOrder {\\n    id\\n    code\\n    state\\n    totalWithTax\\n    lines { productVariant { name } quantity }\\n  }\\n}\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": false\n  },\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"extensions\": {\n        \"key_0\": 3295,\n        \"key_1\": 8388.639750522487,\n        \"key_2\": true\n      }\n    },\n    {\n      \"message\": \"string\",\n      \"path\": [\n        \"string\",\n        \"string\"\n      ],\n      \"extensions\": {\n        \"key_0\": false\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "666c4f97-f63e-42f3-a122-d51be62ab053",
+              "name": "Malformed GraphQL request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "languageCode",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Bearer token issued by a `login` mutation when the server is\nconfigured with bearer-token auth. When using cookie auth, omit and\nrely on the session cookie.\n",
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOi..."
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Channel token selecting the Vendure Channel for this request. Maps\nto the channel `token` field. If omitted, the default channel is\nused. Header name is configurable via `apiOptions.channelTokenKey`.\n",
+                    "key": "vendure-token",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query ActiveOrder {\\n  activeOrder {\\n    id\\n    code\\n    state\\n    totalWithTax\\n    lines { productVariant { name } quantity }\\n  }\\n}\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "863ac474-565e-45ca-94d2-ca706c85dab9",
+              "name": "Unauthorized — missing or invalid auth token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "languageCode",
+                      "value": "en"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Bearer token issued by a `login` mutation when the server is\nconfigured with bearer-token auth. When using cookie auth, omit and\nrely on the session cookie.\n",
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOi..."
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Channel token selecting the Vendure Channel for this request. Maps\nto the channel `token` field. If omitted, the default channel is\nused. Header name is configurable via `apiOptions.channelTokenKey`.\n",
+                    "key": "vendure-token",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"query ActiveOrder {\\n  activeOrder {\\n    id\\n    code\\n    state\\n    totalWithTax\\n    lines { productVariant { name } quantity }\\n  }\\n}\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:3000/admin-api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "737eb15f-0f95-4d05-bb47-afcff2c59d15",
+    "name": "Vendure Admin Assets Vendure Shop API API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Vendure Admin API is the privileged GraphQL endpoint used by the\nVendure Dashboard and back-office tooling. It governs catalogue (products,\nvariants, options, collections, facets), orders and fulfillment,\ncustomers and customer groups, channels and sellers, promotions, tax\ncategories and rates, zones and countries, payment and shipping methods,\nadministrators and roles, API keys, jobs and scheduled tasks, stock\nlocations, assets, and global settings.\n\nThis OpenAPI document models the single GraphQL endpoint\n(`POST /admin-api`); per-operation contracts are defined by the GraphQL\nschema. See the reference documentation for query and mutation lists.\n\n\nContact Support:\n Name: Vendure",
+      "type": "text/plain"
+    }
+  }
+}
