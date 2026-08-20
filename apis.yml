@@ -26,6 +26,18 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/vendure.pn
 tags:
 - Commerce
 - Headless Commerce
+- E-Commerce
+- GraphQL
+- Open-Source
+- TypeScript
+- NestJS
+- B2B
+- B2C
+- Storefront
+- Plugins
+tags_raw:
+- Commerce
+- Headless Commerce
 - eCommerce
 - GraphQL
 - Open Source
@@ -194,6 +206,11 @@ tools:
   - Plugin
   - Assets
   - Storage
+  - Image
+  tags_raw:
+  - Plugin
+  - Assets
+  - Storage
   - Images
   properties:
   - type: Package
@@ -210,6 +227,10 @@ tools:
   tags:
   - Plugin
   - Email
+  - Notification
+  tags_raw:
+  - Plugin
+  - Email
   - Notifications
   properties:
   - type: Package
@@ -222,6 +243,11 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/job-queue-plugin
   tags:
+  - Plugin
+  - Job
+  - Queue
+  - Redis
+  tags_raw:
   - Plugin
   - Jobs
   - Queue
@@ -360,6 +386,11 @@ tools:
   tags:
   - Plugins
   - Extensions
+  - Integration
+  - Community
+  tags_raw:
+  - Plugins
+  - Extensions
   - Integrations
   - Community
   properties:
@@ -398,6 +429,11 @@ tools:
   - Hosted
   - Managed
   - Cloud
+  - Software-as-a-Service
+  tags_raw:
+  - Hosted
+  - Managed
+  - Cloud
   - SaaS
   properties:
   - type: ProductPage
@@ -412,6 +448,11 @@ tools:
   humanURL: https://docs.vendure.io/mcp
   baseURL: https://docs.vendure.io/mcp
   tags:
+  - MCP
+  - Artificial Intelligence
+  - LLM
+  - Documentation
+  tags_raw:
   - MCP
   - AI
   - LLM
