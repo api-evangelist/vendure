@@ -9,6 +9,19 @@ description: >-
   system that extends data, services, jobs, and resolvers. The project is GPLv3-licensed Vendure Core, complemented by a
   commercial Vendure Platform layer of 20+ enterprise plugins, a managed Vendure Cloud offering, an official MCP server,
   and a starter ecosystem (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
@@ -463,6 +476,16 @@ tools:
   - type: Repository
     url: https://github.com/vendurehq/mcp
 common:
+- type: IssueTracker
+  url: https://github.com/vendurehq/vendure/issues
+- type: Releases
+  url: https://github.com/vendurehq/vendure/releases
+- type: SecurityPolicy
+  url: https://github.com/vendurehq/vendure/blob/master/SECURITY.md
+- type: CodeOfConduct
+  url: https://github.com/vendurehq/vendure/blob/master/.github/CODE_OF_CONDUCT.md
+- type: ContributionGuide
+  url: https://github.com/vendurehq/vendure/blob/master/CONTRIBUTING.md
 - type: AgenticAccess
   url: agentic-access/vendure-agentic-access.yml
 - type: DomainSecurity
