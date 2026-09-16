@@ -114,30 +114,6 @@ apis:
     url: json-schema/vendure-customer-schema.json
   - type: Documentation
     url: https://docs.vendure.io/
-- aid: vendure:vendure-vendure-shop-api-api
-  name: Vendure Shop API
-  description: The Vendure Shop API API from Vendure — 1 operation(s) for vendure shop api.
-  humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
-  baseURL: http://localhost:3000/shop-api
-  tags:
-  - Vendure Shop API
-  properties:
-  - type: OpenAPI
-    url: openapi/vendure-vendure-shop-api-api-openapi.yml
-  - type: Documentation
-    url: https://docs.vendure.io/reference/graphql-api/shop/queries/
-  - type: JSONSchema
-    url: json-schema/vendure-product-schema.json
-  - type: JSONSchema
-    url: json-schema/vendure-order-schema.json
-  - type: GraphQL
-    url: graphql/vendure-graphql.md
-  - type: Documentation
-    url: https://docs.vendure.io/reference/graphql-api/admin/queries/
-  - type: JSONSchema
-    url: json-schema/vendure-customer-schema.json
-  - type: Documentation
-    url: https://docs.vendure.io/
 tools:
 - aid: vendure:core
   name: '@vendure/core'
