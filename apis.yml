@@ -2,13 +2,13 @@ aid: vendure
 url: https://raw.githubusercontent.com/api-evangelist/vendure/refs/heads/main/apis.yml
 name: Vendure
 x-type: opensource
-description: >-
-  Vendure is an open-source headless commerce framework built in TypeScript on top of NestJS, GraphQL, and TypeORM. A
-  Vendure server exposes two GraphQL APIs — the Shop API (consumed by storefronts) and the Admin API (consumed by the
-  Dashboard and back-office tooling) — plus an Asset Server REST surface for uploads and image previews, and a plugin
-  system that extends data, services, jobs, and resolvers. The project is GPLv3-licensed Vendure Core, complemented by a
-  commercial Vendure Platform layer of 20+ enterprise plugins, a managed Vendure Cloud offering, an official MCP server,
-  and a starter ecosystem (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
+description: Vendure is an open-source headless commerce framework built in TypeScript on top of NestJS,
+  GraphQL, and TypeORM. A Vendure server exposes two GraphQL APIs — the Shop API (consumed by storefronts)
+  and the Admin API (consumed by the Dashboard and back-office tooling) — plus an Asset Server REST surface
+  for uploads and image previews, and a plugin system that extends data, services, jobs, and resolvers.
+  The project is GPLv3-licensed Vendure Core, complemented by a commercial Vendure Platform layer of 20+
+  enterprise plugins, a managed Vendure Cloud offering, an official MCP server, and a starter ecosystem
+  (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
 deliveryModel:
   model: unknown
   open_source: unknown
@@ -63,7 +63,7 @@ tags_raw:
 - Storefront
 - Plugins
 created: '2026-05-23'
-modified: '2026-05-25'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 apis:
 - aid: vendure:vendure-assets-api
@@ -91,7 +91,7 @@ apis:
   - type: Documentation
     url: https://docs.vendure.io/
 - aid: vendure:vendure-vendure-admin-api-api
-  name: Vendure Vendure Admin API API
+  name: Vendure Admin API
   description: The Vendure Admin API API from Vendure — 1 operation(s) for vendure admin api.
   humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
   baseURL: http://localhost:3000/shop-api
@@ -115,7 +115,7 @@ apis:
   - type: Documentation
     url: https://docs.vendure.io/
 - aid: vendure:vendure-vendure-shop-api-api
-  name: Vendure Vendure Shop API API
+  name: Vendure Shop API
   description: The Vendure Shop API API from Vendure — 1 operation(s) for vendure shop api.
   humanURL: https://docs.vendure.io/reference/graphql-api/shop/queries/
   baseURL: http://localhost:3000/shop-api
@@ -141,10 +141,9 @@ apis:
 tools:
 - aid: vendure:core
   name: '@vendure/core'
-  description: >-
-    The Vendure server framework. A NestJS application with TypeORM persistence, GraphQL Shop and Admin APIs, plugin
-    system, job queue, event bus, and configuration interfaces for custom payment, shipping, tax, search, and auth
-    strategies. GPLv3-licensed.
+  description: The Vendure server framework. A NestJS application with TypeORM persistence, GraphQL Shop
+    and Admin APIs, plugin system, job queue, event bus, and configuration interfaces for custom payment,
+    shipping, tax, search, and auth strategies. GPLv3-licensed.
   humanURL: https://docs.vendure.io/guides/getting-started/installation/
   baseURL: https://github.com/vendurehq/vendure
   tags:
@@ -164,9 +163,8 @@ tools:
     url: https://github.com/vendurehq/vendure/blob/master/LICENSE
 - aid: vendure:create
   name: '@vendure/create'
-  description: >-
-    Project scaffolding CLI invoked via `npx @vendure/create`. Provisions a new Vendure server project with chosen
-    database, sample data, and starter plugins.
+  description: Project scaffolding CLI invoked via `npx @vendure/create`. Provisions a new Vendure server
+    project with chosen database, sample data, and starter plugins.
   humanURL: https://docs.vendure.io/guides/getting-started/installation/
   baseURL: https://www.npmjs.com/package/@vendure/create
   tags:
@@ -180,9 +178,8 @@ tools:
     url: https://docs.vendure.io/guides/getting-started/installation/
 - aid: vendure:cli
   name: '@vendure/cli'
-  description: >-
-    Developer CLI for generating plugins, entities, services, API extensions, and database migrations inside an
-    existing Vendure project.
+  description: Developer CLI for generating plugins, entities, services, API extensions, and database
+    migrations inside an existing Vendure project.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/cli
   tags:
@@ -196,9 +193,8 @@ tools:
     url: https://docs.vendure.io/
 - aid: vendure:dashboard
   name: '@vendure/dashboard'
-  description: >-
-    Official React-based admin UI for Vendure, built against the Admin GraphQL API. Covers catalog, orders, customers,
-    promotions, settings, and surfaces contributed by plugins.
+  description: Official React-based admin UI for Vendure, built against the Admin GraphQL API. Covers
+    catalog, orders, customers, promotions, settings, and surfaces contributed by plugins.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/dashboard
   tags:
@@ -212,9 +208,8 @@ tools:
     url: https://docs.vendure.io/
 - aid: vendure:asset-server-plugin
   name: '@vendure/asset-server-plugin'
-  description: >-
-    Plugin that turns the Vendure server into an asset host. Provides REST upload endpoints, local or S3-backed
-    storage, and on-the-fly image transforms (resize, format, presets).
+  description: Plugin that turns the Vendure server into an asset host. Provides REST upload endpoints,
+    local or S3-backed storage, and on-the-fly image transforms (resize, format, presets).
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/asset-server-plugin
   tags:
@@ -234,9 +229,8 @@ tools:
     url: openapi/vendure-asset-server-openapi.yml
 - aid: vendure:email-plugin
   name: '@vendure/email-plugin'
-  description: >-
-    Transactional email plugin. Subscribes to Vendure events and renders Handlebars/MJML templates for order
-    confirmations, password resets, account verification, and other lifecycle messages.
+  description: Transactional email plugin. Subscribes to Vendure events and renders Handlebars/MJML templates
+    for order confirmations, password resets, account verification, and other lifecycle messages.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/email-plugin
   tags:
@@ -252,9 +246,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/email-plugin
 - aid: vendure:job-queue-plugin
   name: '@vendure/job-queue-plugin'
-  description: >-
-    Production job queue plugin with BullMQ/Redis backends. Replaces the default in-memory queue and surfaces job
-    state to the Admin API.
+  description: Production job queue plugin with BullMQ/Redis backends. Replaces the default in-memory
+    queue and surfaces job state to the Admin API.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/job-queue-plugin
   tags:
@@ -272,9 +265,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/job-queue-plugin
 - aid: vendure:harden-plugin
   name: '@vendure/harden-plugin'
-  description: >-
-    Production hardening plugin. Disables introspection, limits query complexity and depth, hides internal error
-    details, and applies additional guards to the public GraphQL endpoints.
+  description: Production hardening plugin. Disables introspection, limits query complexity and depth,
+    hides internal error details, and applies additional guards to the public GraphQL endpoints.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/harden-plugin
   tags:
@@ -287,9 +279,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/harden-plugin
 - aid: vendure:graphiql-plugin
   name: '@vendure/graphiql-plugin'
-  description: >-
-    Developer plugin that mounts a GraphiQL explorer against the Shop and Admin GraphQL endpoints for interactive
-    query authoring and schema browsing.
+  description: Developer plugin that mounts a GraphiQL explorer against the Shop and Admin GraphQL endpoints
+    for interactive query authoring and schema browsing.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/graphiql-plugin
   tags:
@@ -301,9 +292,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/graphiql-plugin
 - aid: vendure:telemetry-plugin
   name: '@vendure/telemetry-plugin'
-  description: >-
-    OpenTelemetry instrumentation plugin emitting traces and metrics from the Vendure server, plugins, and job queue
-    for production observability.
+  description: OpenTelemetry instrumentation plugin emitting traces and metrics from the Vendure server,
+    plugins, and job queue for production observability.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/telemetry-plugin
   tags:
@@ -315,9 +305,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/telemetry-plugin
 - aid: vendure:testing
   name: '@vendure/testing'
-  description: >-
-    End-to-end testing harness for Vendure servers and plugins. Bootstraps an isolated Vendure instance with seed data
-    and exposes typed GraphQL clients against the Shop and Admin APIs.
+  description: End-to-end testing harness for Vendure servers and plugins. Bootstraps an isolated Vendure
+    instance with seed data and exposes typed GraphQL clients against the Shop and Admin APIs.
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/testing
   tags:
@@ -329,9 +318,8 @@ tools:
     url: https://www.npmjs.com/package/@vendure/testing
 - aid: vendure:storefront-remix-starter
   name: Storefront Remix Starter
-  description: >-
-    Reference storefront built with Remix on top of the Vendure Shop API. Demonstrates catalog browse, search, cart,
-    checkout, payment, and account flows.
+  description: Reference storefront built with Remix on top of the Vendure Shop API. Demonstrates catalog
+    browse, search, cart, checkout, payment, and account flows.
   humanURL: https://github.com/vendurehq/storefront-remix-starter
   baseURL: https://github.com/vendurehq/storefront-remix-starter
   tags:
@@ -355,9 +343,8 @@ tools:
     url: https://github.com/vendurehq/storefront-qwik-starter
 - aid: vendure:nextjs-starter
   name: Next.js Starter
-  description: >-
-    Official Next.js 16 storefront starter for Vendure. Includes catalog, cart, checkout, and account flows on top of
-    the Shop GraphQL API.
+  description: Official Next.js 16 storefront starter for Vendure. Includes catalog, cart, checkout, and
+    account flows on top of the Shop GraphQL API.
   humanURL: https://github.com/vendurehq/nextjs-starter-vendure
   baseURL: https://github.com/vendurehq/nextjs-starter-vendure
   tags:
@@ -393,9 +380,9 @@ tools:
     url: https://github.com/vendurehq/storefront-sveltekit-starter
 - aid: vendure:community-plugins
   name: Community Plugins
-  description: >-
-    Community-maintained plugins extending Vendure with payments (Braintree, Stripe), search (Algolia, Elasticsearch,
-    Typesense), email providers, asset storage backends, ERP and CRM integrations, and country/region specialisations.
+  description: Community-maintained plugins extending Vendure with payments (Braintree, Stripe), search
+    (Algolia, Elasticsearch, Typesense), email providers, asset storage backends, ERP and CRM integrations,
+    and country/region specialisations.
   humanURL: https://github.com/vendurehq/community-plugins
   baseURL: https://github.com/vendurehq/community-plugins
   tags:
@@ -415,10 +402,9 @@ tools:
     url: https://docs.vendure.io/current/community-plugins/braintree-plugin
 - aid: vendure:platform
   name: Vendure Platform
-  description: >-
-    Commercial enterprise capability layer on top of Vendure Core. Adds 20+ enterprise plugins (advanced B2B, contract
-    pricing, SSO, audit, governance), a production-ready Next.js storefront, AI tooling, dedicated support, and a
-    commercial license alternative to GPLv3.
+  description: Commercial enterprise capability layer on top of Vendure Core. Adds 20+ enterprise plugins
+    (advanced B2B, contract pricing, SSO, audit, governance), a production-ready Next.js storefront, AI
+    tooling, dedicated support, and a commercial license alternative to GPLv3.
   humanURL: https://docs.vendure.io/current/platform/getting-started/introduction
   baseURL: https://vendure.io/platform
   tags:
@@ -435,9 +421,9 @@ tools:
     url: https://vendure.io/pricing
 - aid: vendure:cloud
   name: Vendure Cloud
-  description: >-
-    Managed hosting for Vendure (Core or Platform). Provides auto-scaling, automated backups, multi-region
-    deployments, EU data residency, monitoring and observability. Available for design partners with GA Q4 2026.
+  description: Managed hosting for Vendure (Core or Platform). Provides auto-scaling, automated backups,
+    multi-region deployments, EU data residency, monitoring and observability. Available for design partners
+    with GA Q4 2026.
   humanURL: https://vendure.io/cloud
   baseURL: https://vendure.io/cloud
   tags:
@@ -457,9 +443,9 @@ tools:
     url: https://vendure.io/pricing
 - aid: vendure:docs-mcp
   name: Vendure Docs MCP Server
-  description: >-
-    Official remote Model Context Protocol server exposing the Vendure documentation to LLM coding assistants (Claude
-    Code, Cursor, VS Code, Windsurf) for grounded code generation against Vendure APIs and plugin patterns.
+  description: Official remote Model Context Protocol server exposing the Vendure documentation to LLM
+    coding assistants (Claude Code, Cursor, VS Code, Windsurf) for grounded code generation against Vendure
+    APIs and plugin patterns.
   humanURL: https://docs.vendure.io/mcp
   baseURL: https://docs.vendure.io/mcp
   tags:
