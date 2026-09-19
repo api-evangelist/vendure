@@ -124,6 +124,12 @@ tools:
   baseURL: https://github.com/vendurehq/vendure
   tags:
   - Framework
+  - Servers
+  - NestJS
+  - TypeScript
+  - TypeORM
+  tags_raw:
+  - Framework
   - Server
   - NestJS
   - TypeScript
@@ -174,6 +180,10 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/dashboard
   tags:
+  - Dashboards
+  - Admin UI
+  - React
+  tags_raw:
   - Dashboard
   - Admin UI
   - React
@@ -189,7 +199,7 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/asset-server-plugin
   tags:
-  - Plugin
+  - Plugins
   - Assets
   - Storage
   - Image
@@ -210,7 +220,7 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/email-plugin
   tags:
-  - Plugin
+  - Plugins
   - Email
   - Notification
   tags_raw:
@@ -227,9 +237,9 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/job-queue-plugin
   tags:
-  - Plugin
+  - Plugins
   - Job
-  - Queue
+  - Queues
   - Redis
   tags_raw:
   - Plugin
@@ -246,6 +256,11 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/harden-plugin
   tags:
+  - Plugins
+  - Security
+  - GraphQL
+  - Hardening
+  tags_raw:
   - Plugin
   - Security
   - GraphQL
@@ -260,6 +275,10 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/graphiql-plugin
   tags:
+  - Plugins
+  - GraphiQL
+  - Developer Experience
+  tags_raw:
   - Plugin
   - GraphiQL
   - Developer Experience
@@ -273,6 +292,10 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/telemetry-plugin
   tags:
+  - Plugins
+  - OpenTelemetry
+  - Observability
+  tags_raw:
   - Plugin
   - OpenTelemetry
   - Observability
@@ -286,6 +309,10 @@ tools:
   humanURL: https://docs.vendure.io/
   baseURL: https://www.npmjs.com/package/@vendure/testing
   tags:
+  - Testing
+  - Plugins
+  - Developer Experience
+  tags_raw:
   - Testing
   - Plugin
   - Developer Experience
