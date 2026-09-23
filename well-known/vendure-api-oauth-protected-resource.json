@@ -1,0 +1,1 @@
+{"resource":"https://api.vendure.io/mcp","authorization_servers":["https://api.vendure.io"],"bearer_methods_supported":["header"],"scopes_supported":["admin:mcp"],"resource_name":"Vendure Admin MCP"}

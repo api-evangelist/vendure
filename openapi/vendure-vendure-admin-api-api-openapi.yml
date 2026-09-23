@@ -1,29 +1,10 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Vendure Admin Assets Vendure Admin API API
+  title: Vendure Admin API
   version: '3.6'
   description: 'The Vendure Admin API is the privileged GraphQL endpoint used by the
 
-    Vendure Dashboard and back-office tooling. It governs catalogue (products,
-
-    variants, options, collections, facets), orders and fulfillment,
-
-    customers and customer groups, channels and sellers, promotions, tax
-
-    categories and rates, zones and countries, payment and shipping methods,
-
-    administrators and roles, API keys, jobs and scheduled tasks, stock
-
-    locations, assets, and global settings.
-
-
-    This OpenAPI document models the single GraphQL endpoint
-
-    (`POST /admin-api`); per-operation contracts are defined by the GraphQL
-
-    schema. See the reference documentation for query and mutation lists.
-
-    '
+    Vendure Dashboard and back-office tooling.'
   contact:
     name: Vendure
     url: https://docs.vendure.io/reference/graphql-api/admin/queries/
@@ -50,7 +31,67 @@ paths:
     post:
       summary: Execute Admin API GraphQL Operation
       operationId: executeAdminGraphQL
-      description: "Executes a GraphQL query, mutation, or named operation against the\nAdmin API. The caller must be authenticated as an administrator\nwhose role grants the relevant permission(s).\n\nPermissions checked include: `CreateCatalog`, `ReadCatalog`,\n`UpdateCatalog`, `DeleteCatalog`, `CreateOrder`, `ReadOrder`,\n`UpdateOrder`, `DeleteOrder`, `CreateCustomer`, `ReadCustomer`,\n`UpdateCustomer`, `DeleteCustomer`, `CreatePromotion`,\n`ReadPromotion`, `UpdatePromotion`, `DeletePromotion`,\n`CreateAdministrator`, `ReadAdministrator`, `UpdateAdministrator`,\n`DeleteAdministrator`, `CreateSettings`, `ReadSettings`,\n`UpdateSettings`, `DeleteSettings`.\n\nCommon operations:\n  - Queries: `products`, `product`, `productVariants`,\n    `productVariant`, `collections`, `collection`, `orders`,\n    `order`, `customers`, `customer`, `customerGroups`, `channels`,\n    `promotions`, `promotionConditions`, `promotionActions`,\n    `taxCategories`, `taxRates`, `zones`, `countries`,\n    `administrators`, `roles`, `paymentMethods`, `shippingMethods`,\n    `jobs`, `scheduledTasks`, `globalSettings`, `apiKeys`,\n    `stockLocations`, `assets`, `facets`, `sellers`.\n  - Mutations: `createProduct`, `updateProduct`, `deleteProduct`,\n    `addOptionGroupToProduct`, `createProductVariants`,\n    `updateProductVariants`, `assignProductsToChannel`,\n    `setOrderShippingAddress`, `addManualPaymentToOrder`,\n    `transitionOrderToState`, `cancelOrder`, `refundOrder`,\n    `createCustomer`, `createPromotion`, `updatePromotion`,\n    `createChannel`, `createTaxRate`, `createZone`,\n    `createPaymentMethod`, `createShippingMethod`,\n    `createAdministrator`, `createRole`, `cancelJob`,\n    `updateGlobalSettings`, `createApiKey`.\n"
+      description: 'Executes a GraphQL query, mutation, or named operation against the
+
+        Admin API. The caller must be authenticated as an administrator
+
+        whose role grants the relevant permission(s).
+
+
+        Permissions checked include: `CreateCatalog`, `ReadCatalog`,
+
+        `UpdateCatalog`, `DeleteCatalog`, `CreateOrder`, `ReadOrder`,
+
+        `UpdateOrder`, `DeleteOrder`, `CreateCustomer`, `ReadCustomer`,
+
+        `UpdateCustomer`, `DeleteCustomer`, `CreatePromotion`,
+
+        `ReadPromotion`, `UpdatePromotion`, `DeletePromotion`,
+
+        `CreateAdministrator`, `ReadAdministrator`, `UpdateAdministrator`,
+
+        `DeleteAdministrator`, `CreateSettings`, `ReadSettings`,
+
+        `UpdateSettings`, `DeleteSettings`.
+
+
+        Common operations:
+
+        - Queries: `products`, `product`, `productVariants`,
+
+        `productVariant`, `collections`, `collection`, `orders`,
+
+        `order`, `customers`, `customer`, `customerGroups`, `channels`,
+
+        `promotions`, `promotionConditions`, `promotionActions`,
+
+        `taxCategories`, `taxRates`, `zones`, `countries`,
+
+        `administrators`, `roles`, `paymentMethods`, `shippingMethods`,
+
+        `jobs`, `scheduledTasks`, `globalSettings`, `apiKeys`,
+
+        `stockLocations`, `assets`, `facets`, `sellers`.
+
+        - Mutations: `createProduct`, `updateProduct`, `deleteProduct`,
+
+        `addOptionGroupToProduct`, `createProductVariants`,
+
+        `updateProductVariants`, `assignProductsToChannel`,
+
+        `setOrderShippingAddress`, `addManualPaymentToOrder`,
+
+        `transitionOrderToState`, `cancelOrder`, `refundOrder`,
+
+        `createCustomer`, `createPromotion`, `updatePromotion`,
+
+        `createChannel`, `createTaxRate`, `createZone`,
+
+        `createPaymentMethod`, `createShippingMethod`,
+
+        `createAdministrator`, `createRole`, `cancelJob`,
+
+        `updateGlobalSettings`, `createApiKey`.'
       parameters:
       - $ref: '#/components/parameters/AuthTokenHeader'
       - $ref: '#/components/parameters/ChannelTokenHeader'
@@ -118,6 +159,18 @@ components:
         type: string
         example: Bearer eyJhbGciOi...
   schemas:
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
     GraphQLResponse:
       type: object
       properties:
@@ -141,18 +194,6 @@ components:
               extensions:
                 type: object
                 additionalProperties: true
-    GraphQLRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-        variables:
-          type: object
-          additionalProperties: true
-        operationName:
-          type: string
   securitySchemes:
     BearerAuth:
       type: http
