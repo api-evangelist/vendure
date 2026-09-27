@@ -136,41 +136,7 @@ paths:
       tags:
       - Vendure Admin API
 components:
-  parameters:
-    ChannelTokenHeader:
-      name: vendure-token
-      in: header
-      required: false
-      description: Channel token selecting the active Channel for the request.
-      schema:
-        type: string
-    AuthTokenHeader:
-      name: Authorization
-      in: header
-      required: true
-      description: 'Bearer token issued by the Admin `login` mutation, or session cookie
-
-        equivalent. Header name and scheme are configurable via
-
-        `authOptions.tokenMethod`.
-
-        '
-      schema:
-        type: string
-        example: Bearer eyJhbGciOi...
   schemas:
-    GraphQLRequest:
-      type: object
-      required:
-      - query
-      properties:
-        query:
-          type: string
-        variables:
-          type: object
-          additionalProperties: true
-        operationName:
-          type: string
     GraphQLResponse:
       type: object
       properties:
@@ -194,6 +160,40 @@ components:
               extensions:
                 type: object
                 additionalProperties: true
+    GraphQLRequest:
+      type: object
+      required:
+      - query
+      properties:
+        query:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+        operationName:
+          type: string
+  parameters:
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: Channel token selecting the active Channel for the request.
+      schema:
+        type: string
+    AuthTokenHeader:
+      name: Authorization
+      in: header
+      required: true
+      description: 'Bearer token issued by the Admin `login` mutation, or session cookie
+
+        equivalent. Header name and scheme are configurable via
+
+        `authOptions.tokenMethod`.
+
+        '
+      schema:
+        type: string
+        example: Bearer eyJhbGciOi...
   securitySchemes:
     BearerAuth:
       type: http

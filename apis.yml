@@ -11,6 +11,10 @@ description: Vendure is an open-source headless commerce framework built in Type
   (Next.js, Remix, Qwik, SvelteKit, Angular, Gatsby).
 deliveryModel:
   model: unknown
+  license_evidence:
+    repo: vendurehq/vendure
+    spdx: NOASSERTION
+    stars: 8473
   open_source: unknown
   commercial: true
   callable_host: false
@@ -20,7 +24,7 @@ deliveryModel:
   - openapi
   - pricing
   - repository-unlicensed
-  generated: '2026-08-28'
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: enterprise
@@ -43,11 +47,11 @@ tags:
 - Headless Commerce
 - E-Commerce
 - GraphQL
-- Open-Source
+- Open Source
 - TypeScript
 - NestJS
 - B2B
-- B2C
+- Consumer
 - Storefront
 - Plugins
 tags_raw:
@@ -62,6 +66,7 @@ tags_raw:
 - B2C
 - Storefront
 - Plugins
+- Open-Source
 created: '2026-05-23'
 modified: '2026-09-16'
 specificationVersion: '0.23'

@@ -114,42 +114,15 @@ paths:
       - Assets
 components:
   parameters:
-    HeightQuery:
-      name: h
+    WidthQuery:
+      name: w
       in: query
       required: false
-      description: Target height in pixels.
+      description: Target width in pixels.
       schema:
         type: integer
         minimum: 1
         maximum: 8192
-    ModeQuery:
-      name: mode
-      in: query
-      required: false
-      description: Fit mode for resizing.
-      schema:
-        type: string
-        enum:
-        - crop
-        - resize
-    QualityQuery:
-      name: q
-      in: query
-      required: false
-      description: Output quality (1-100) for lossy formats.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-    AssetPath:
-      name: assetPath
-      in: path
-      required: true
-      description: The stored asset path (filename and any storage prefix).
-      schema:
-        type: string
-      example: source/91/demo-product.jpg
     FormatQuery:
       name: format
       in: query
@@ -163,6 +136,34 @@ components:
         - png
         - webp
         - avif
+    HeightQuery:
+      name: h
+      in: query
+      required: false
+      description: Target height in pixels.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 8192
+    QualityQuery:
+      name: q
+      in: query
+      required: false
+      description: Output quality (1-100) for lossy formats.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+    ModeQuery:
+      name: mode
+      in: query
+      required: false
+      description: Fit mode for resizing.
+      schema:
+        type: string
+        enum:
+        - crop
+        - resize
     PresetQuery:
       name: preset
       in: query
@@ -176,12 +177,11 @@ components:
         - small
         - medium
         - large
-    WidthQuery:
-      name: w
-      in: query
-      required: false
-      description: Target width in pixels.
+    AssetPath:
+      name: assetPath
+      in: path
+      required: true
+      description: The stored asset path (filename and any storage prefix).
       schema:
-        type: integer
-        minimum: 1
-        maximum: 8192
+        type: string
+      example: source/91/demo-product.jpg
