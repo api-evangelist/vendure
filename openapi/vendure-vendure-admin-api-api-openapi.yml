@@ -173,13 +173,6 @@ components:
         operationName:
           type: string
   parameters:
-    ChannelTokenHeader:
-      name: vendure-token
-      in: header
-      required: false
-      description: Channel token selecting the active Channel for the request.
-      schema:
-        type: string
     AuthTokenHeader:
       name: Authorization
       in: header
@@ -194,6 +187,13 @@ components:
       schema:
         type: string
         example: Bearer eyJhbGciOi...
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: Channel token selecting the active Channel for the request.
+      schema:
+        type: string
   securitySchemes:
     BearerAuth:
       type: http

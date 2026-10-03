@@ -114,6 +114,38 @@ paths:
       - Assets
 components:
   parameters:
+    PresetQuery:
+      name: preset
+      in: query
+      required: false
+      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
+      schema:
+        type: string
+        enum:
+        - tiny
+        - thumb
+        - small
+        - medium
+        - large
+    HeightQuery:
+      name: h
+      in: query
+      required: false
+      description: Target height in pixels.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 8192
+    ModeQuery:
+      name: mode
+      in: query
+      required: false
+      description: Fit mode for resizing.
+      schema:
+        type: string
+        enum:
+        - crop
+        - resize
     WidthQuery:
       name: w
       in: query
@@ -136,15 +168,6 @@ components:
         - png
         - webp
         - avif
-    HeightQuery:
-      name: h
-      in: query
-      required: false
-      description: Target height in pixels.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 8192
     QualityQuery:
       name: q
       in: query
@@ -154,29 +177,6 @@ components:
         type: integer
         minimum: 1
         maximum: 100
-    ModeQuery:
-      name: mode
-      in: query
-      required: false
-      description: Fit mode for resizing.
-      schema:
-        type: string
-        enum:
-        - crop
-        - resize
-    PresetQuery:
-      name: preset
-      in: query
-      required: false
-      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
-      schema:
-        type: string
-        enum:
-        - tiny
-        - thumb
-        - small
-        - medium
-        - large
     AssetPath:
       name: assetPath
       in: path
