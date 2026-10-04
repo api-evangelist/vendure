@@ -114,60 +114,6 @@ paths:
       - Assets
 components:
   parameters:
-    PresetQuery:
-      name: preset
-      in: query
-      required: false
-      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
-      schema:
-        type: string
-        enum:
-        - tiny
-        - thumb
-        - small
-        - medium
-        - large
-    HeightQuery:
-      name: h
-      in: query
-      required: false
-      description: Target height in pixels.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 8192
-    ModeQuery:
-      name: mode
-      in: query
-      required: false
-      description: Fit mode for resizing.
-      schema:
-        type: string
-        enum:
-        - crop
-        - resize
-    WidthQuery:
-      name: w
-      in: query
-      required: false
-      description: Target width in pixels.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 8192
-    FormatQuery:
-      name: format
-      in: query
-      required: false
-      description: Output format override.
-      schema:
-        type: string
-        enum:
-        - jpg
-        - jpeg
-        - png
-        - webp
-        - avif
     QualityQuery:
       name: q
       in: query
@@ -185,3 +131,57 @@ components:
       schema:
         type: string
       example: source/91/demo-product.jpg
+    WidthQuery:
+      name: w
+      in: query
+      required: false
+      description: Target width in pixels.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 8192
+    ModeQuery:
+      name: mode
+      in: query
+      required: false
+      description: Fit mode for resizing.
+      schema:
+        type: string
+        enum:
+        - crop
+        - resize
+    HeightQuery:
+      name: h
+      in: query
+      required: false
+      description: Target height in pixels.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 8192
+    FormatQuery:
+      name: format
+      in: query
+      required: false
+      description: Output format override.
+      schema:
+        type: string
+        enum:
+        - jpg
+        - jpeg
+        - png
+        - webp
+        - avif
+    PresetQuery:
+      name: preset
+      in: query
+      required: false
+      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
+      schema:
+        type: string
+        enum:
+        - tiny
+        - thumb
+        - small
+        - medium
+        - large

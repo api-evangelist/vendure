@@ -136,6 +136,28 @@ paths:
       tags:
       - Vendure Admin API
 components:
+  parameters:
+    ChannelTokenHeader:
+      name: vendure-token
+      in: header
+      required: false
+      description: Channel token selecting the active Channel for the request.
+      schema:
+        type: string
+    AuthTokenHeader:
+      name: Authorization
+      in: header
+      required: true
+      description: 'Bearer token issued by the Admin `login` mutation, or session cookie
+
+        equivalent. Header name and scheme are configurable via
+
+        `authOptions.tokenMethod`.
+
+        '
+      schema:
+        type: string
+        example: Bearer eyJhbGciOi...
   schemas:
     GraphQLResponse:
       type: object
@@ -172,28 +194,6 @@ components:
           additionalProperties: true
         operationName:
           type: string
-  parameters:
-    AuthTokenHeader:
-      name: Authorization
-      in: header
-      required: true
-      description: 'Bearer token issued by the Admin `login` mutation, or session cookie
-
-        equivalent. Header name and scheme are configurable via
-
-        `authOptions.tokenMethod`.
-
-        '
-      schema:
-        type: string
-        example: Bearer eyJhbGciOi...
-    ChannelTokenHeader:
-      name: vendure-token
-      in: header
-      required: false
-      description: Channel token selecting the active Channel for the request.
-      schema:
-        type: string
   securitySchemes:
     BearerAuth:
       type: http
