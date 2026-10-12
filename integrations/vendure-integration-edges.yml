@@ -1,0 +1,16 @@
+generated: '2026-10-12'
+method: none
+source:
+- https://zapier.com/apps/vendure/integrations
+- https://n8n.io/integrations/vendure/
+- https://composio.dev/toolkits/vendure
+- https://monid.ai/tools/vendure
+checked:
+- https://composio.dev/toolkits/vendure
+- https://monid.ai/tools/vendure
+- https://n8n.io/integrations/vendure/
+- https://zapier.com/apps/vendure/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []
