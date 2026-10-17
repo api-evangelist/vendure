@@ -114,23 +114,6 @@ paths:
       - Assets
 components:
   parameters:
-    QualityQuery:
-      name: q
-      in: query
-      required: false
-      description: Output quality (1-100) for lossy formats.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-    AssetPath:
-      name: assetPath
-      in: path
-      required: true
-      description: The stored asset path (filename and any storage prefix).
-      schema:
-        type: string
-      example: source/91/demo-product.jpg
     WidthQuery:
       name: w
       in: query
@@ -140,6 +123,19 @@ components:
         type: integer
         minimum: 1
         maximum: 8192
+    PresetQuery:
+      name: preset
+      in: query
+      required: false
+      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
+      schema:
+        type: string
+        enum:
+        - tiny
+        - thumb
+        - small
+        - medium
+        - large
     ModeQuery:
       name: mode
       in: query
@@ -150,6 +146,14 @@ components:
         enum:
         - crop
         - resize
+    AssetPath:
+      name: assetPath
+      in: path
+      required: true
+      description: The stored asset path (filename and any storage prefix).
+      schema:
+        type: string
+      example: source/91/demo-product.jpg
     HeightQuery:
       name: h
       in: query
@@ -172,16 +176,12 @@ components:
         - png
         - webp
         - avif
-    PresetQuery:
-      name: preset
+    QualityQuery:
+      name: q
       in: query
       required: false
-      description: Named preset configured on the AssetServerPlugin (`tiny`, `thumb`, `small`, `medium`, `large`, or custom).
+      description: Output quality (1-100) for lossy formats.
       schema:
-        type: string
-        enum:
-        - tiny
-        - thumb
-        - small
-        - medium
-        - large
+        type: integer
+        minimum: 1
+        maximum: 100
